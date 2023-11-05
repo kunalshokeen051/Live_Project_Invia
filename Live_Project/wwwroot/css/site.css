@@ -1,0 +1,41 @@
+:root {
+    --purple1: #610C9F;
+    --purple2: #940B92;
+    --orange: #F9A66C;
+    --yellow: #F2C76E;
+    --dark-orange: #E32E00;
+    --dark-yellow: #F2C76E;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+
+.btn.btn-primary {
+    background-color: var(--purple2);
+    border-color: var(--purple1);
+}
+
+ .btn.btn-primary:active, .btn.btn-primary.active {
+        background-color: var(--purple1);
+ }
+
+.btn.btn-secondary {
+    background-color: var(--orange);
+    border-color: black;
+}
+
+.btn.btn-secondary:active, .btn.btn-secondary.active {
+    background-color: var(--dark-orange);
+}
+
+.btn.btn-info {
+    background-color: var(--yellow);
+    border-color: black;
+}
+
+
+.btn.btn-info:active, .btn.btn-info.active {
+    background-color: var(--dark-yellow);
+}
