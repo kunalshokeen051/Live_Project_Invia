@@ -213,12 +213,12 @@ namespace LP.Repository.Repositories
         {
             try
             {
-                string sql = @" select c.Id,d.Title,d.Id,d.Name, d.IpAddress,d.CriticalPort,d.OpenPort,d.WebServer,d.Round,p.Max_Rounds,t.Current_Round from Customers c
-                                INNER JOIN Transactions t on t.PlanId = c.Current_Plan
-                                inner join Plans p on p.Id = t.PlanId
-                                inner join Domains d on d.Customer_Id = c.Id
-                                where c.Id =@Cus_Id  and t.IsLatest = 1 order by d.Round desc
-                               ";
+                string sql = @"select c.Id,d.Title,d.Id as DoaminId,d.Name, d.IpAddress,d.CriticalPort,d.OpenPort,d.WebServer,d.Round,p.Max_Rounds,t.Current_Round from Customers c
+                               INNER JOIN Transactions t on t.CustomerId = c.Id
+                               inner join Plans p on p.Id = t.PlanId
+                               inner join Domains d on d.Customer_Id = c.Id
+                               where c.Id = @Cus_Id and t.IsLatest = 1 order by d.Round desc";
+
                 var domains = _dbConnection.Query<DomainVM>
                 (sql, new { @Cus_Id = Id }, transaction: _transaction);
                 return domains.ToList();
