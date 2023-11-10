@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Index"; 
 }
 
    <div class="MyContainer">     
@@ -9,42 +9,63 @@
                     <img src="~/Images/Hero_Image.svg" class="d-block mx-lg-auto img-fluid" alt="Bootstrap Themes" width="700" height="500" loading="lazy">
                 </div>
                 <div class="col-lg-6">
-                    <h1 class="display-5  lh-1 mb-3 test">Connecting the World, One Call at a Time.</h1>
-                <p class="lead lh-base">
-                      Your Passport to Seamless Communication.
-                        Our app bridges the gap, enabling crystal-clear calls and lightning-fast messaging. 
+                    <h1 class="display-5  lh-1 mb-3 test">Locking Shields, Unlocking Success.</h1>
+                    <p class="lead lh-base">
+                    Invia Guard 360: Your fortress in cyberspace. Comprehensive security, absolute peace of mind.
                     </p>
                     <a asp-controller="Login" asp-action="Index" class="btn btn-primary btn-lg px-4 me-md-2">Login</a>
                 </div>
             </div>
         </div>
+    <div class="bubble"></div>
    </div>
 
 
 @section Styles {
-        @@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap');
-           
-     body{
-            font-family: 'Poppins', sans-serif;
-        }
+     .MyContainer {
+    height: calc(100vh - 80px);
+    position: relative;
+    padding: 30px 0px;
+}
 
-        .MyContainer{
-            height:100vh;
-            position:relative;  
-            padding:30px 0px;
-        }
+  .bubble {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    animation: floatBubbles 8s ease-in-out infinite;
+  }
+    
+  @@keyframes floatBubbles {
+    0% {
+      transform: translateY(0) rotate(0deg);
+      opacity: 1;
+    }
+    50% {
+      transform: translateY(-50px) rotate(360deg);
+      opacity: 0.8;
+    }
+    100% {
+      transform: translateY(0) rotate(720deg);
+      opacity: 1;
+    }
+  }
 
-        .test{
-           font-family: 'Caveat', cursive;
-        }
-
+       
 }
 
 
 @section Scripts {
     <script>
         $(document).ready(function () {
-           
+            $(".MyContainer").addClass("animate__animated animate__fadeIn animate__fast");
+
+            $(".img-fluid").addClass("animate__animated animate__fadeIn animate__fast animate__zoomIn");
+
+            $(".col-lg-6").addClass("animate__animated animate__fadeInLeftBig animate__fast");
+
+            $(".btn-primary").addClass("animate__animated animate__fadeInUpBig animate__fast");
         });
     </script>
 }

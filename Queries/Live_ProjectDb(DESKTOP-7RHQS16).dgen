@@ -1,0 +1,982 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Devart (www.devart.com), Data-Generator document file -->
+<!-- Modifying this generated file will probably render it invalid -->
+<DataGenDocument xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="6.3">
+  <ConnectionModel>
+    <PropertyValue Name="Database">aa8afe9c-7d62-4564-b477-c12e62e0f440</PropertyValue>
+    <PropertyValue Name="ConnectionString" xml:space="preserve">Data Source=DESKTOP-7RHQS16;Integrated Security=True;User ID=DESKTOP-7RHQS16\Invia-ILC</PropertyValue>
+  </ConnectionModel>
+  <Settings>
+    <Provider>aa8afe9c-7d62-4564-b477-c12e62e0f440</Provider>
+    <AllowNulls>true</AllowNulls>
+    <IncludeNullsPercent>10</IncludeNullsPercent>
+    <AllowEmptyString>false</AllowEmptyString>
+    <IncludeEmptyStringPercent>10</IncludeEmptyStringPercent>
+    <DatabaseName>Live_ProjectDb</DatabaseName>
+    <PopulationType>Time</PopulationType>
+    <RowsToGenerate>100</RowsToGenerate>
+    <ProportionOfExistingData>10</ProportionOfExistingData>
+    <TimeTicksToPopulate>100000000</TimeTicksToPopulate>
+    <GenerateUniqueValues>true</GenerateUniqueValues>
+    <TruncateTables>true</TruncateTables>
+    <DistributionMode>Random</DistributionMode>
+    <Seed>1</Seed>
+    <LastSeedValue>0</LastSeedValue>
+    <Language>AU</Language>
+    <ShowDataPreview>true</ShowDataPreview>
+  </Settings>
+  <Tables>
+    <Table Name="dbo.Customers">
+      <Checked>true</Checked>
+      <Settings>
+        <Truncate>true</Truncate>
+        <RowsToGenerate>0</RowsToGenerate>
+        <PopulationDetails>
+          <PopulationType>RowsCount</PopulationType>
+          <RowsCount>100</RowsCount>
+          <LookupProportion>30</LookupProportion>
+          <ProportionOfExistingData>10</ProportionOfExistingData>
+          <TimeTicksToPopulate>100000000</TimeTicksToPopulate>
+        </PopulationDetails>
+      </Settings>
+      <Columns>
+        <Column Name="Id">
+          <Checked>true</Checked>
+          <DataType>int</DataType>
+          <GeneratorOptions xsi:type="IntegerGeneratorOptions">
+            <AllowNulls>false</AllowNulls>
+            <NullProportion>0</NullProportion>
+            <Unique>true</Unique>
+            <IsAlwaysUnique>false</IsAlwaysUnique>
+            <Increment xsi:type="xsd:int">1</Increment>
+            <ValueDistributionMode>Sequential</ValueDistributionMode>
+            <SeedValue>1</SeedValue>
+            <MinValue>1</MinValue>
+            <MaxValue>9999999</MaxValue>
+            <UseDefault>false</UseDefault>
+            <DefaultValue />
+          </GeneratorOptions>
+          <GeneratorType>SqlIntegerGenerator</GeneratorType>
+          <GeneratorName>ID (sequential)</GeneratorName>
+          <GeneratorDescription>1, 2, 3, 4, ..., 9, 10, 11, 12, ...</GeneratorDescription>
+          <GeneratorCategory>Business</GeneratorCategory>
+          <Length>4</Length>
+          <Precision>10</Precision>
+        </Column>
+        <Column Name="Email">
+          <Checked>true</Checked>
+          <DataType>nvarchar</DataType>
+          <GeneratorOptions xsi:type="SqlRegularExpressionGeneratorOptions">
+            <AllowEmptyStrings>false</AllowEmptyStrings>
+            <EmptyStringProportion>10</EmptyStringProportion>
+            <AllowNulls>false</AllowNulls>
+            <NullProportion>0</NullProportion>
+            <ValueDistributionMode>Random</ValueDistributionMode>
+            <SeedValue>1</SeedValue>
+            <Unique>true</Unique>
+            <IsAlwaysUnique>false</IsAlwaysUnique>
+            <Expression>(((((($"FirstNamesMale.txt")|($"FirstNamesFemale.txt"))[_.]?)?($"LastNames.txt"))|(($"LastNames.txt")\C?)|(((($"FirstNamesMale.txt")|($"FirstNamesFemale.txt"))[_.]?(\C[_.]?)?)?($"LastNames.txt")))(\D{,3})?|\c{4,8}(\d{1,4}|[_.]\c{4,10}))@(example$"7"|nowhere$"3").com</Expression>
+          </GeneratorOptions>
+          <GeneratorType>SqlRegularExpressionGenerator</GeneratorType>
+          <GeneratorName>Email</GeneratorName>
+          <GeneratorDescription>Danica.Foley@example.com, fstu@nowhere.com, CurtK_Burton@example.com, LaroseM696@nowhere.com, ...</GeneratorDescription>
+          <GeneratorCategory>Personal</GeneratorCategory>
+          <Length>255</Length>
+        </Column>
+        <Column Name="First_Name">
+          <Checked>true</Checked>
+          <DataType>nvarchar</DataType>
+          <GeneratorOptions xsi:type="SqlRegularExpressionGeneratorOptions">
+            <AllowEmptyStrings>false</AllowEmptyStrings>
+            <EmptyStringProportion>10</EmptyStringProportion>
+            <AllowNulls>false</AllowNulls>
+            <NullProportion>0</NullProportion>
+            <ValueDistributionMode>Random</ValueDistributionMode>
+            <SeedValue>1</SeedValue>
+            <Unique>true</Unique>
+            <IsAlwaysUnique>false</IsAlwaysUnique>
+            <Expression>($"FirstNamesMale.txt")|($"FirstNamesFemale.txt")</Expression>
+          </GeneratorOptions>
+          <GeneratorType>SqlRegularExpressionGenerator</GeneratorType>
+          <GeneratorName>First Name (any gender)</GeneratorName>
+          <GeneratorDescription>Nickolas, Agnes, Sabrina, Albert, Rozanne, Kerri, Roberta, ...</GeneratorDescription>
+          <GeneratorCategory>Personal</GeneratorCategory>
+          <Length>255</Length>
+        </Column>
+        <Column Name="Last_Name">
+          <Checked>true</Checked>
+          <DataType>nvarchar</DataType>
+          <GeneratorOptions xsi:type="TextFileGeneratorOptions">
+            <AllowEmptyStrings>false</AllowEmptyStrings>
+            <EmptyStringProportion>10</EmptyStringProportion>
+            <AllowNulls>false</AllowNulls>
+            <NullProportion>0</NullProportion>
+            <ValueDistributionMode>Random</ValueDistributionMode>
+            <SeedValue>1</SeedValue>
+            <IsLoop>true</IsLoop>
+            <Unique>true</Unique>
+            <IsAlwaysUnique>false</IsAlwaysUnique>
+            <FileName>LastNames.txt</FileName>
+            <TrimLeft>false</TrimLeft>
+            <TrimRight>false</TrimRight>
+            <CodePage>-1</CodePage>
+          </GeneratorOptions>
+          <GeneratorType>SqlTextFileGenerator</GeneratorType>
+          <GeneratorName>Last Name</GeneratorName>
+          <GeneratorDescription>Harter, Nicholson, Eller, Kozlowski, Bennett, Norwood, Olivarez, ...</GeneratorDescription>
+          <GeneratorCategory>Personal</GeneratorCategory>
+          <Length>255</Length>
+        </Column>
+        <Column Name="City">
+          <Checked>true</Checked>
+          <DataType>nvarchar</DataType>
+          <GeneratorOptions xsi:type="TextFileGeneratorOptions">
+            <AllowEmptyStrings>false</AllowEmptyStrings>
+            <EmptyStringProportion>10</EmptyStringProportion>
+            <AllowNulls>false</AllowNulls>
+            <NullProportion>10</NullProportion>
+            <ValueDistributionMode>Random</ValueDistributionMode>
+            <SeedValue>1</SeedValue>
+            <IsLoop>true</IsLoop>
+            <Unique>true</Unique>
+            <IsAlwaysUnique>false</IsAlwaysUnique>
+            <FileName>AUCities.txt</FileName>
+            <TrimLeft>false</TrimLeft>
+            <TrimRight>false</TrimRight>
+            <CodePage>-1</CodePage>
+          </GeneratorOptions>
+          <GeneratorType>SqlTextFileGenerator</GeneratorType>
+          <GeneratorName>AU City</GeneratorName>
+          <GeneratorDescription>Sydney, Alice Springs, Hamilton, Victoria Point, ...</GeneratorDescription>
+          <GeneratorCategory>Location</GeneratorCategory>
+          <Length>255</Length>
+        </Column>
+        <Column Name="Country">
+          <Checked>true</Checked>
+          <DataType>nvarchar</DataType>
+          <GeneratorOptions xsi:type="SqlRegularExpressionGeneratorOptions">
+            <AllowEmptyStrings>false</AllowEmptyStrings>
+            <EmptyStringProportion>10</EmptyStringProportion>
+            <AllowNulls>false</AllowNulls>
+            <NullProportion>10</NullProportion>
+            <ValueDistributionMode>Random</ValueDistributionMode>
+            <SeedValue>1</SeedValue>
+            <Unique>true</Unique>
+            <IsAlwaysUnique>false</IsAlwaysUnique>
+            <Expression>($"CountryCodes.csv[0]")</Expression>
+          </GeneratorOptions>
+          <GeneratorType>SqlRegularExpressionGenerator</GeneratorType>
+          <GeneratorName>Country</GeneratorName>
+          <GeneratorDescription>Belgium, United States, Japan, Ukraine, Switzerland, Georgia, Australia, ...</GeneratorDescription>
+          <GeneratorCategory>Location</GeneratorCategory>
+          <Length>255</Length>
+        </Column>
+        <Column Name="Address">
+          <Checked>true</Checked>
+          <DataType>nvarchar</DataType>
+          <GeneratorOptions xsi:type="SqlRegularExpressionGeneratorOptions">
+            <AllowEmptyStrings>false</AllowEmptyStrings>
+            <EmptyStringProportion>10</EmptyStringProportion>
+            <AllowNulls>true</AllowNulls>
+            <NullProportion>10</NullProportion>
+            <ValueDistributionMode>Random</ValueDistributionMode>
+            <SeedValue>1</SeedValue>
+            <Unique>true</Unique>
+            <IsAlwaysUnique>false</IsAlwaysUnique>
+            <Expression>(([1-9]\d{1,2})|([1-3]\d{3})) (((New|Old|Hidden|West|South|East|North|White|Red|E|(S)?W|NW|S(E)?|N(E)?) )?((((Ski|Chapel|Hunting|Fox|Rose|Riddle|Rock|Prospect|Sharp) Hill)|Front|Hope|Mount|Church|Social|Riverside|Highland|(Wood(land|bridge|hurst|side|row|fort|cock))|((Deep|Iron|Rush|Edge|Park|Hazel|Bur|Glen|Rock|Quail|Stone|Flint|Button|Beach|Ash|Brent)wood)|Lake|(Cedar|Pine) Tree|Oak|((Water|Meadow|Farm|River|Bay)view)|Town|Market|Mountain|Monument))|((1st|2nd|3rd|[4-9]\d?th))) (St(reet)?|Ave(nue)?|Dr(ive)?|R(oa)?d|Ct|C(our)?t|Ln|Lane|Blvd|Cir(cle)?|Hwy|Highway|Loop|Way|Pkwy|Parkway), ((((1st|2nd|3rd|[4-9]\d?th) (Floor|FL))|((Appartment|APT) [1-9]\d{0,2})|((Suite|STE) [1-9]\d{0,3})|(((Nipper|Victor Executive|Diamond|Standard|Keith|Superior|Macy's|Enquirer|Duke Energy|Bartlett|Plaza|Equitable|MidAmerican|Penobscot|Guardian|Fisher|Buhl|Comcast|Calyon|First Security|257 Towers|Kearns|Judge) (Building|Bldg)))), )?($"USStateCodes.csv[2]"), (($"USStateCodes.csv[0]")|($"USStateCodes.csv[1]")), \d{5}</Expression>
+          </GeneratorOptions>
+          <GeneratorType>SqlRegularExpressionGenerator</GeneratorType>
+          <GeneratorName>US Address Full</GeneratorName>
+          <GeneratorDescription>520 46th St, Sacramento, CA, 10265; 122 Beachwood Drive, Suite 17, Hartford, Connecticut, 31824; ...</GeneratorDescription>
+          <GeneratorCategory>Location</GeneratorCategory>
+          <Length>255</Length>
+        </Column>
+        <Column Name="Current_Plan">
+          <Checked>true</Checked>
+          <DataType>int</DataType>
+          <GeneratorOptions xsi:type="IntegerGeneratorOptions">
+            <AllowNulls>false</AllowNulls>
+            <NullProportion>10</NullProportion>
+            <Unique>true</Unique>
+            <IsAlwaysUnique>false</IsAlwaysUnique>
+            <Increment xsi:type="xsd:int">1</Increment>
+            <ValueDistributionMode>Random</ValueDistributionMode>
+            <SeedValue>1</SeedValue>
+            <MinValue>1</MinValue>
+            <MaxValue>3</MaxValue>
+            <UseDefault>false</UseDefault>
+            <DefaultValue />
+          </GeneratorOptions>
+          <GeneratorType>SqlIntegerGenerator</GeneratorType>
+          <GeneratorName>int</GeneratorName>
+          <GeneratorDescription>fill with 32-bit signed integer values</GeneratorDescription>
+          <Length>4</Length>
+          <Precision>10</Precision>
+        </Column>
+        <Column Name="TransactionId">
+          <Checked>true</Checked>
+          <DataType>int</DataType>
+          <GeneratorOptions xsi:type="IntegerGeneratorOptions">
+            <AllowNulls>false</AllowNulls>
+            <NullProportion>10</NullProportion>
+            <Unique>true</Unique>
+            <IsAlwaysUnique>false</IsAlwaysUnique>
+            <Increment xsi:type="xsd:int">1</Increment>
+            <ValueDistributionMode>Random</ValueDistributionMode>
+            <SeedValue>11</SeedValue>
+            <MinValue>100000</MinValue>
+            <MaxValue>999999</MaxValue>
+            <UseDefault>false</UseDefault>
+            <DefaultValue />
+          </GeneratorOptions>
+          <GeneratorType>SqlIntegerGenerator</GeneratorType>
+          <GeneratorName>ID (sequential)</GeneratorName>
+          <GeneratorDescription>1, 2, 3, 4, ..., 9, 10, 11, 12, ...</GeneratorDescription>
+          <GeneratorCategory>Business</GeneratorCategory>
+          <Length>4</Length>
+          <Precision>10</Precision>
+        </Column>
+        <Column Name="PlanId">
+          <Checked>true</Checked>
+          <DataType>int</DataType>
+          <GeneratorOptions xsi:type="IntegerGeneratorOptions">
+            <AllowNulls>false</AllowNulls>
+            <NullProportion>10</NullProportion>
+            <Unique>true</Unique>
+            <IsAlwaysUnique>false</IsAlwaysUnique>
+            <Increment xsi:type="xsd:int">1</Increment>
+            <ValueDistributionMode>Sequential</ValueDistributionMode>
+            <SeedValue>3</SeedValue>
+            <MinValue>1</MinValue>
+            <MaxValue>2147483647</MaxValue>
+            <UseDefault>false</UseDefault>
+            <DefaultValue />
+          </GeneratorOptions>
+          <GeneratorType>SqlIntegerGenerator</GeneratorType>
+          <GeneratorName>ID (sequential)</GeneratorName>
+          <GeneratorDescription>1, 2, 3, 4, ..., 9, 10, 11, 12, ...</GeneratorDescription>
+          <GeneratorCategory>Business</GeneratorCategory>
+          <Length>4</Length>
+          <Precision>10</Precision>
+        </Column>
+        <Column Name="Organization">
+          <Checked>true</Checked>
+          <DataType>nvarchar</DataType>
+          <GeneratorOptions xsi:type="SqlRegularExpressionGeneratorOptions">
+            <AllowEmptyStrings>false</AllowEmptyStrings>
+            <EmptyStringProportion>10</EmptyStringProportion>
+            <AllowNulls>true</AllowNulls>
+            <NullProportion>10</NullProportion>
+            <ValueDistributionMode>Random</ValueDistributionMode>
+            <SeedValue>1</SeedValue>
+            <Unique>true</Unique>
+            <IsAlwaysUnique>false</IsAlwaysUnique>
+            <Expression>(((American|Australian|Canadian|Pacific|Federal|Global|Domestic|First|General|(West((ern)?|( Coast)))|North|East|South|Flexible|City|WorldWide|Home|Advanced|Beyond|Future|National|International|(Uni(on|ted))|Special|Professional|Smart|Creative) ))(Systems|((2|3|4|5)G )Wireless|(([A-Z]-)?Mobile)|Telecom(munications)?|(([2-7])D )Electronic|Entertainment|(Financial( Experts)?)|Services|Devices|(Logi(cs|stic))|(High-)?Technologies|(Renewable|Natural Gas|Fossil Fuel|Wave|Thermal|Solar|Wind|Green|Nuclear) (Energy|Resources|Power)|((Oil|Electricity)( &amp; Gas)?)|Investment|Insurance|Broadcasting|Trust|Tire &amp; Rubber|Engineering|Protection|Software|Cars( Battery)?|Equipment|Semiconductor|Business|Mining|Heating|Partners|Data|Computers|Security|Petroleum|Instruments|Laboratories|(Lasers &amp; )?Optics|Travel|(Space )?(Research|Explore)|Management|Consulting|Media|Telemetrics|Development|Materials|(F|G)oods|Transport(ation)?|Industry|Health( Care)?|Automotive|Products|Delivery) (((Inc|Co(rp)?).)|(Group|Corporation))</Expression>
+          </GeneratorOptions>
+          <GeneratorType>SqlRegularExpressionGenerator</GeneratorType>
+          <GeneratorName>Company</GeneratorName>
+          <GeneratorDescription>First Tire &amp; Rubber Inc., Smart Systems Corp., Flexible Insurance Group, ...</GeneratorDescription>
+          <GeneratorCategory>Business</GeneratorCategory>
+          <Length>255</Length>
+        </Column>
+        <Column Name="Created_Date">
+          <Checked>true</Checked>
+          <DataType>datetime</DataType>
+          <GeneratorOptions xsi:type="DateTimeGeneratorOptions">
+            <AllowNulls>false</AllowNulls>
+            <NullProportion>10</NullProportion>
+            <Unique>true</Unique>
+            <IsAlwaysUnique>false</IsAlwaysUnique>
+            <UseDefault>false</UseDefault>
+            <ValueDistributionMode>Random</ValueDistributionMode>
+            <SeedValue>1</SeedValue>
+            <SequentialValueTicks>864000000000</SequentialValueTicks>
+            <OffsetFromColumnMaxTimeTicks>10000000</OffsetFromColumnMaxTimeTicks>
+            <OffsetFromColumnMinTimeTicks>10000000</OffsetFromColumnMinTimeTicks>
+            <DateTimeRange>MinMaxDate</DateTimeRange>
+            <UseOffsetDetails>false</UseOffsetDetails>
+            <OffsetFromColumnMinDays>0</OffsetFromColumnMinDays>
+            <OffsetFromColumnMaxDays>7</OffsetFromColumnMaxDays>
+            <MinDate>2022-01-01T00:00:00</MinDate>
+            <MaxDate>2023-11-07T00:00:00+05:30</MaxDate>
+            <IsRandomizeDate>true</IsRandomizeDate>
+            <IsRandomizeTime>true</IsRandomizeTime>
+            <MinFraction>0</MinFraction>
+            <MaxFraction>99</MaxFraction>
+            <IsRandomizeFraction>true</IsRandomizeFraction>
+            <Scale>2</Scale>
+            <Precision>0</Precision>
+            <MaxTime>863990000000</MaxTime>
+            <MinTime>10000000</MinTime>
+          </GeneratorOptions>
+          <GeneratorType>SqlDateTimeGenerator</GeneratorType>
+          <GeneratorName>datetime</GeneratorName>
+          <GeneratorDescription>fill with date and time with fractional seconds values</GeneratorDescription>
+          <Scale>3</Scale>
+          <Length>8</Length>
+          <Precision>23</Precision>
+        </Column>
+      </Columns>
+    </Table>
+    <Table Name="dbo.Domains">
+      <Checked>false</Checked>
+      <Settings>
+        <Truncate>true</Truncate>
+        <RowsToGenerate>0</RowsToGenerate>
+        <PopulationDetails>
+          <PopulationType>Time</PopulationType>
+          <RowsCount>100</RowsCount>
+          <LookupProportion>30</LookupProportion>
+          <ProportionOfExistingData>10</ProportionOfExistingData>
+          <TimeTicksToPopulate>100000000</TimeTicksToPopulate>
+        </PopulationDetails>
+      </Settings>
+      <Columns>
+        <Column Name="Id">
+          <Checked>false</Checked>
+          <DataType>uniqueidentifier</DataType>
+          <GeneratorOptions xsi:type="UniqueidentifierGeneratorOptions">
+            <Unique>true</Unique>
+            <IsAlwaysUnique>true</IsAlwaysUnique>
+            <UseDefault>false</UseDefault>
+            <AllowNulls>false</AllowNulls>
+            <NullProportion>0</NullProportion>
+            <ValueDistributionMode>Seed</ValueDistributionMode>
+            <SeedValue>7</SeedValue>
+          </GeneratorOptions>
+          <GeneratorType>SqlUniqueidentifierGenerator</GeneratorType>
+          <GeneratorName>uniqueidentifier</GeneratorName>
+          <GeneratorDescription>fill with 16-byte GUID values</GeneratorDescription>
+          <Length>16</Length>
+        </Column>
+        <Column Name="Name">
+          <Checked>false</Checked>
+          <DataType>nvarchar</DataType>
+          <GeneratorOptions xsi:type="SqlLoremIpsumGeneratorOptions">
+            <AllowEmptyStrings>false</AllowEmptyStrings>
+            <EmptyStringProportion>0</EmptyStringProportion>
+            <AllowNulls>false</AllowNulls>
+            <NullProportion>0</NullProportion>
+            <ValueDistributionMode>Random</ValueDistributionMode>
+            <SeedValue>4</SeedValue>
+            <MinLength>1</MinLength>
+            <MaxLength>49</MaxLength>
+            <MaxAllowedLength>500</MaxAllowedLength>
+            <MinWordsInSentence>3</MinWordsInSentence>
+            <MaxWordsInSentence>10</MaxWordsInSentence>
+            <MinSentences>1</MinSentences>
+            <MaxSentences>1</MaxSentences>
+            <MinParagraphs>1</MinParagraphs>
+            <MaxParagraphs>1</MaxParagraphs>
+            <Unique>false</Unique>
+            <IsAlwaysUnique>false</IsAlwaysUnique>
+            <PunctuationSigns>.</PunctuationSigns>
+            <StartParagraphWithIndent>false</StartParagraphWithIndent>
+            <AddParagraphTags>false</AddParagraphTags>
+            <AddItalicTags>false</AddItalicTags>
+            <AddBoldTags>false</AddBoldTags>
+            <AddSingleLineBreakTags>false</AddSingleLineBreakTags>
+            <AddNewLines>false</AddNewLines>
+          </GeneratorOptions>
+          <GeneratorType>SqlLoremIpsumGenerator</GeneratorType>
+          <GeneratorName>Document Title</GeneratorName>
+          <GeneratorDescription>Laudantium officia quis quam.; Dolorem et unde eos.; Sequi illo necessitatibus aut.; Veritatis et quod.; ...</GeneratorDescription>
+          <GeneratorCategory>IT</GeneratorCategory>
+          <Length>500</Length>
+        </Column>
+        <Column Name="Title">
+          <Checked>false</Checked>
+          <DataType>varchar</DataType>
+          <GeneratorOptions xsi:type="SqlRegularExpressionGeneratorOptions">
+            <AllowEmptyStrings>false</AllowEmptyStrings>
+            <EmptyStringProportion>10</EmptyStringProportion>
+            <AllowNulls>true</AllowNulls>
+            <NullProportion>10</NullProportion>
+            <ValueDistributionMode>Random</ValueDistributionMode>
+            <SeedValue>4</SeedValue>
+            <Unique>true</Unique>
+            <IsAlwaysUnique>false</IsAlwaysUnique>
+            <Expression>((http(s)?)://)(www.)?(((((al|an|ar|as|at|ea|ed|en|er|es|ha|he|hi|in|is|it|le|me|nd|ne|ng|nt|on|or|th|re|ou|to|ve|te|st|ti|se|wa)|(all|and|are|but|ent|era|ere|eve|for|had|hat|hen|hin|his|ing|ion|ith|not|ome|oul|our|sho|ted|ter|tha|thi|tio|uld|ver|was|wit|the|her|you)){2,4}|((all|and|are|but|ent|era|ere|eve|for|had|hat|hen|hin|his|ing|ion|ith|not|ome|oul|our|sho|ted|ter|tha|thi|tio|uld|ver|was|wit|the|her|you)|(al|an|ar|as|at|ea|ed|en|er|es|ha|he|hi|in|is|it|le|me|nd|ne|ng|nt|on|or|th|re|ou|to|ve|te|st|ti|se|wa)){2,4}).((au|ae|ar|at|be|br|ca|ch|cn|cy|cz|de|dk|eg|es|fi|fr|ge|gr|hk|hu|il|it|jp|kr|lu|lv|mx|nl|no|nz|se|tr|tw|ua|uk|us|za)|(biz|net|org|com)))/((((((al|an|ar|as|at|ea|ed|en|er|es|ha|he|hi|in|is|it|le|me|nd|ne|ng|nt|on|or|th|re|ou|to|ve|te|st|ti|se|wa)|(all|and|are|but|ent|era|ere|eve|for|had|hat|hen|hin|his|ing|ion|ith|not|ome|oul|our|sho|ted|ter|tha|thi|tio|uld|ver|was|wit|the|her|you)){1,3}|((all|and|are|but|ent|era|ere|eve|for|had|hat|hen|hin|his|ing|ion|ith|not|ome|oul|our|sho|ted|ter|tha|thi|tio|uld|ver|was|wit|the|her|you)|(al|an|ar|as|at|ea|ed|en|er|es|ha|he|hi|in|is|it|le|me|nd|ne|ng|nt|on|or|th|re|ou|to|ve|te|st|ti|se|wa)){1,3}))/){1,3})(((al|an|ar|as|at|ea|ed|en|er|es|ha|he|hi|in|is|it|le|me|nd|ne|ng|nt|on|or|th|re|ou|to|ve|te|st|ti|se|wa)|(all|and|are|but|ent|era|ere|eve|for|had|hat|hen|hin|his|ing|ion|ith|not|ome|oul|our|sho|ted|ter|tha|thi|tio|uld|ver|was|wit|the|her|you)){2,4}|((all|and|are|but|ent|era|ere|eve|for|had|hat|hen|hin|his|ing|ion|ith|not|ome|oul|our|sho|ted|ter|tha|thi|tio|uld|ver|was|wit|the|her|you)|(al|an|ar|as|at|ea|ed|en|er|es|ha|he|hi|in|is|it|le|me|nd|ne|ng|nt|on|or|th|re|ou|to|ve|te|st|ti|se|wa)){2,4}).((php(\?t=\D\d{1,3}(&amp;p=\D\d{1,3})?)?)|(asp(x)?(\?id=\D\d{1,2})?)|htm(l)?(#\d{1,5})?))</Expression>
+          </GeneratorOptions>
+          <GeneratorType>SqlRegularExpressionGenerator</GeneratorType>
+          <GeneratorName>URL (web)</GeneratorName>
+          <GeneratorDescription>http://alandth.es/atometer/tedhen.php?t=5715, http://enhi.fr/our/hadnd.html, https://thiar.biz/antote/insho.asp, ...</GeneratorDescription>
+          <GeneratorCategory>IT</GeneratorCategory>
+          <Length>1000</Length>
+        </Column>
+        <Column Name="RegDate">
+          <Checked>false</Checked>
+          <DataType>date</DataType>
+          <GeneratorOptions xsi:type="DateGeneratorOptions">
+            <AllowNulls>true</AllowNulls>
+            <NullProportion>10</NullProportion>
+            <Unique>true</Unique>
+            <IsAlwaysUnique>false</IsAlwaysUnique>
+            <UseDefault>false</UseDefault>
+            <ValueDistributionMode>Random</ValueDistributionMode>
+            <SeedValue>4</SeedValue>
+            <SequentialValueTicks>864000000000</SequentialValueTicks>
+            <OffsetFromColumnMaxTimeTicks>10000000</OffsetFromColumnMaxTimeTicks>
+            <OffsetFromColumnMinTimeTicks>10000000</OffsetFromColumnMinTimeTicks>
+            <DateTimeRange>MinMaxDate</DateTimeRange>
+            <UseOffsetDetails>false</UseOffsetDetails>
+            <OffsetFromColumnMinDays>0</OffsetFromColumnMinDays>
+            <OffsetFromColumnMaxDays>7</OffsetFromColumnMaxDays>
+            <MinDate>1970-01-01T00:00:00</MinDate>
+            <MaxDate>2023-11-07T00:00:00+05:30</MaxDate>
+            <IsRandomizeDate>true</IsRandomizeDate>
+          </GeneratorOptions>
+          <GeneratorType>SqlDateGenerator</GeneratorType>
+          <GeneratorName>date</GeneratorName>
+          <GeneratorDescription>fill with date values</GeneratorDescription>
+          <Length>3</Length>
+          <Precision>10</Precision>
+        </Column>
+        <Column Name="ExpDate">
+          <Checked>false</Checked>
+          <DataType>date</DataType>
+          <GeneratorOptions xsi:type="DateGeneratorOptions">
+            <AllowNulls>true</AllowNulls>
+            <NullProportion>10</NullProportion>
+            <Unique>true</Unique>
+            <IsAlwaysUnique>false</IsAlwaysUnique>
+            <UseDefault>false</UseDefault>
+            <ValueDistributionMode>Random</ValueDistributionMode>
+            <SeedValue>5</SeedValue>
+            <SequentialValueTicks>864000000000</SequentialValueTicks>
+            <OffsetFromColumnMaxTimeTicks>10000000</OffsetFromColumnMaxTimeTicks>
+            <OffsetFromColumnMinTimeTicks>10000000</OffsetFromColumnMinTimeTicks>
+            <DateTimeRange>MinMaxDate</DateTimeRange>
+            <UseOffsetDetails>false</UseOffsetDetails>
+            <OffsetFromColumnMinDays>0</OffsetFromColumnMinDays>
+            <OffsetFromColumnMaxDays>7</OffsetFromColumnMaxDays>
+            <MinDate>1970-01-01T00:00:00</MinDate>
+            <MaxDate>2023-11-07T00:00:00+05:30</MaxDate>
+            <IsRandomizeDate>true</IsRandomizeDate>
+          </GeneratorOptions>
+          <GeneratorType>SqlDateGenerator</GeneratorType>
+          <GeneratorName>date</GeneratorName>
+          <GeneratorDescription>fill with date values</GeneratorDescription>
+          <Length>3</Length>
+          <Precision>10</Precision>
+        </Column>
+        <Column Name="Registrar">
+          <Checked>false</Checked>
+          <DataType>varchar</DataType>
+          <GeneratorOptions xsi:type="SqlRegularExpressionGeneratorOptions">
+            <AllowEmptyStrings>false</AllowEmptyStrings>
+            <EmptyStringProportion>10</EmptyStringProportion>
+            <AllowNulls>true</AllowNulls>
+            <NullProportion>10</NullProportion>
+            <ValueDistributionMode>Random</ValueDistributionMode>
+            <SeedValue>4</SeedValue>
+            <Unique>true</Unique>
+            <IsAlwaysUnique>false</IsAlwaysUnique>
+            <Expression>[0-9A-Z]+</Expression>
+          </GeneratorOptions>
+          <GeneratorType>SqlStringRegularExpressionGenerator</GeneratorType>
+          <GeneratorName>Reg Exp</GeneratorName>
+          <GeneratorDescription>values based on a regular expression</GeneratorDescription>
+          <Length>250</Length>
+        </Column>
+        <Column Name="Size">
+          <Checked>false</Checked>
+          <DataType>varchar</DataType>
+          <GeneratorOptions xsi:type="SqlRegularExpressionGeneratorOptions">
+            <AllowEmptyStrings>false</AllowEmptyStrings>
+            <EmptyStringProportion>10</EmptyStringProportion>
+            <AllowNulls>true</AllowNulls>
+            <NullProportion>10</NullProportion>
+            <ValueDistributionMode>Random</ValueDistributionMode>
+            <SeedValue>4</SeedValue>
+            <Unique>true</Unique>
+            <IsAlwaysUnique>false</IsAlwaysUnique>
+            <Expression>(X)?S|M|(X?X?)L|3(2|4|6|8)|(4|5)(0|2|4|6|8)</Expression>
+          </GeneratorOptions>
+          <GeneratorType>SqlRegularExpressionGenerator</GeneratorType>
+          <GeneratorName>Clothing Size</GeneratorName>
+          <GeneratorDescription>S, 36, XXL, 42, M, L, 50, XS, 46, 38, ...</GeneratorDescription>
+          <GeneratorCategory>Product</GeneratorCategory>
+          <Length>50</Length>
+        </Column>
+        <Column Name="WebServer">
+          <Checked>false</Checked>
+          <DataType>varchar</DataType>
+          <GeneratorOptions xsi:type="SqlRegularExpressionGeneratorOptions">
+            <AllowEmptyStrings>false</AllowEmptyStrings>
+            <EmptyStringProportion>10</EmptyStringProportion>
+            <AllowNulls>true</AllowNulls>
+            <NullProportion>10</NullProportion>
+            <ValueDistributionMode>Random</ValueDistributionMode>
+            <SeedValue>4</SeedValue>
+            <Unique>true</Unique>
+            <IsAlwaysUnique>false</IsAlwaysUnique>
+            <Expression>((http(s)?)://)(www.)?(((((al|an|ar|as|at|ea|ed|en|er|es|ha|he|hi|in|is|it|le|me|nd|ne|ng|nt|on|or|th|re|ou|to|ve|te|st|ti|se|wa)|(all|and|are|but|ent|era|ere|eve|for|had|hat|hen|hin|his|ing|ion|ith|not|ome|oul|our|sho|ted|ter|tha|thi|tio|uld|ver|was|wit|the|her|you)){2,4}|((all|and|are|but|ent|era|ere|eve|for|had|hat|hen|hin|his|ing|ion|ith|not|ome|oul|our|sho|ted|ter|tha|thi|tio|uld|ver|was|wit|the|her|you)|(al|an|ar|as|at|ea|ed|en|er|es|ha|he|hi|in|is|it|le|me|nd|ne|ng|nt|on|or|th|re|ou|to|ve|te|st|ti|se|wa)){2,4}).((au|ae|ar|at|be|br|ca|ch|cn|cy|cz|de|dk|eg|es|fi|fr|ge|gr|hk|hu|il|it|jp|kr|lu|lv|mx|nl|no|nz|se|tr|tw|ua|uk|us|za)|(biz|net|org|com)))/((((((al|an|ar|as|at|ea|ed|en|er|es|ha|he|hi|in|is|it|le|me|nd|ne|ng|nt|on|or|th|re|ou|to|ve|te|st|ti|se|wa)|(all|and|are|but|ent|era|ere|eve|for|had|hat|hen|hin|his|ing|ion|ith|not|ome|oul|our|sho|ted|ter|tha|thi|tio|uld|ver|was|wit|the|her|you)){1,3}|((all|and|are|but|ent|era|ere|eve|for|had|hat|hen|hin|his|ing|ion|ith|not|ome|oul|our|sho|ted|ter|tha|thi|tio|uld|ver|was|wit|the|her|you)|(al|an|ar|as|at|ea|ed|en|er|es|ha|he|hi|in|is|it|le|me|nd|ne|ng|nt|on|or|th|re|ou|to|ve|te|st|ti|se|wa)){1,3}))/){1,3})(((al|an|ar|as|at|ea|ed|en|er|es|ha|he|hi|in|is|it|le|me|nd|ne|ng|nt|on|or|th|re|ou|to|ve|te|st|ti|se|wa)|(all|and|are|but|ent|era|ere|eve|for|had|hat|hen|hin|his|ing|ion|ith|not|ome|oul|our|sho|ted|ter|tha|thi|tio|uld|ver|was|wit|the|her|you)){2,4}|((all|and|are|but|ent|era|ere|eve|for|had|hat|hen|hin|his|ing|ion|ith|not|ome|oul|our|sho|ted|ter|tha|thi|tio|uld|ver|was|wit|the|her|you)|(al|an|ar|as|at|ea|ed|en|er|es|ha|he|hi|in|is|it|le|me|nd|ne|ng|nt|on|or|th|re|ou|to|ve|te|st|ti|se|wa)){2,4}).((php(\?t=\D\d{1,3}(&amp;p=\D\d{1,3})?)?)|(asp(x)?(\?id=\D\d{1,2})?)|htm(l)?(#\d{1,5})?))</Expression>
+          </GeneratorOptions>
+          <GeneratorType>SqlRegularExpressionGenerator</GeneratorType>
+          <GeneratorName>URL (web)</GeneratorName>
+          <GeneratorDescription>http://alandth.es/atometer/tedhen.php?t=5715, http://enhi.fr/our/hadnd.html, https://thiar.biz/antote/insho.asp, ...</GeneratorDescription>
+          <GeneratorCategory>IT</GeneratorCategory>
+          <Length>250</Length>
+        </Column>
+        <Column Name="Country">
+          <Checked>false</Checked>
+          <DataType>nvarchar</DataType>
+          <GeneratorOptions xsi:type="SqlRegularExpressionGeneratorOptions">
+            <AllowEmptyStrings>false</AllowEmptyStrings>
+            <EmptyStringProportion>10</EmptyStringProportion>
+            <AllowNulls>true</AllowNulls>
+            <NullProportion>10</NullProportion>
+            <ValueDistributionMode>Random</ValueDistributionMode>
+            <SeedValue>4</SeedValue>
+            <Unique>true</Unique>
+            <IsAlwaysUnique>false</IsAlwaysUnique>
+            <Expression>($"CountryCodes.csv[0]")</Expression>
+          </GeneratorOptions>
+          <GeneratorType>SqlRegularExpressionGenerator</GeneratorType>
+          <GeneratorName>Country</GeneratorName>
+          <GeneratorDescription>Belgium, United States, Japan, Ukraine, Switzerland, Georgia, Australia, ...</GeneratorDescription>
+          <GeneratorCategory>Location</GeneratorCategory>
+          <Length>255</Length>
+        </Column>
+        <Column Name="IpAddress">
+          <Checked>false</Checked>
+          <DataType>varchar</DataType>
+          <GeneratorOptions xsi:type="IP4AddressGeneratorOptions">
+            <AllowEmptyStrings>false</AllowEmptyStrings>
+            <EmptyStringProportion>10</EmptyStringProportion>
+            <AllowNulls>true</AllowNulls>
+            <NullProportion>10</NullProportion>
+            <Unique>true</Unique>
+            <IsAlwaysUnique>false</IsAlwaysUnique>
+            <ValueDistributionMode>Random</ValueDistributionMode>
+            <SeedValue>4</SeedValue>
+            <Increment xsi:type="xsd:int">1</Increment>
+            <IpAddressType>Remote</IpAddressType>
+            <IpAddressClass>ClassA ClassB ClassC</IpAddressClass>
+            <GenerateInDigitMode>false</GenerateInDigitMode>
+          </GeneratorOptions>
+          <GeneratorType>SqlIP4AddressGenerator</GeneratorType>
+          <GeneratorName>IPv4 Address</GeneratorName>
+          <GeneratorDescription>204.17.199.171, 42.2.55.50, 135.14.90.169, 67.24.25.4, 9.74.240.236, ...</GeneratorDescription>
+          <GeneratorCategory>IT</GeneratorCategory>
+          <Length>50</Length>
+        </Column>
+        <Column Name="Customer_Id">
+          <Checked>false</Checked>
+          <DataType>int</DataType>
+          <GeneratorOptions xsi:type="IntegerGeneratorOptions">
+            <AllowNulls>false</AllowNulls>
+            <NullProportion>0</NullProportion>
+            <Unique>true</Unique>
+            <IsAlwaysUnique>false</IsAlwaysUnique>
+            <Increment xsi:type="xsd:int">1</Increment>
+            <ValueDistributionMode>Sequential</ValueDistributionMode>
+            <SeedValue>4</SeedValue>
+            <MinValue>1</MinValue>
+            <MaxValue>2147483647</MaxValue>
+            <UseDefault>false</UseDefault>
+            <DefaultValue />
+          </GeneratorOptions>
+          <GeneratorType>SqlIntegerGenerator</GeneratorType>
+          <GeneratorName>ID (sequential)</GeneratorName>
+          <GeneratorDescription>1, 2, 3, 4, ..., 9, 10, 11, 12, ...</GeneratorDescription>
+          <GeneratorCategory>Business</GeneratorCategory>
+          <Length>4</Length>
+          <Precision>10</Precision>
+        </Column>
+        <Column Name="OpenPort">
+          <Checked>false</Checked>
+          <DataType>varchar(max)</DataType>
+          <GeneratorOptions xsi:type="SqlRegularExpressionGeneratorOptions">
+            <AllowEmptyStrings>false</AllowEmptyStrings>
+            <EmptyStringProportion>10</EmptyStringProportion>
+            <AllowNulls>true</AllowNulls>
+            <NullProportion>10</NullProportion>
+            <ValueDistributionMode>Random</ValueDistributionMode>
+            <SeedValue>5</SeedValue>
+            <Unique>true</Unique>
+            <IsAlwaysUnique>false</IsAlwaysUnique>
+            <Expression>[0-9A-Z]+</Expression>
+          </GeneratorOptions>
+          <GeneratorType>SqlStringRegularExpressionGenerator</GeneratorType>
+          <GeneratorName>Reg Exp</GeneratorName>
+          <GeneratorDescription>values based on a regular expression</GeneratorDescription>
+          <Length>-1</Length>
+        </Column>
+        <Column Name="CriticalPort">
+          <Checked>false</Checked>
+          <DataType>varchar(max)</DataType>
+          <GeneratorOptions xsi:type="SqlRegularExpressionGeneratorOptions">
+            <AllowEmptyStrings>false</AllowEmptyStrings>
+            <EmptyStringProportion>10</EmptyStringProportion>
+            <AllowNulls>true</AllowNulls>
+            <NullProportion>10</NullProportion>
+            <ValueDistributionMode>Random</ValueDistributionMode>
+            <SeedValue>6</SeedValue>
+            <Unique>true</Unique>
+            <IsAlwaysUnique>false</IsAlwaysUnique>
+            <Expression>[0-9A-Z]+</Expression>
+          </GeneratorOptions>
+          <GeneratorType>SqlStringRegularExpressionGenerator</GeneratorType>
+          <GeneratorName>Reg Exp</GeneratorName>
+          <GeneratorDescription>values based on a regular expression</GeneratorDescription>
+          <Length>-1</Length>
+        </Column>
+      </Columns>
+    </Table>
+    <Table Name="dbo.Enquires">
+      <Checked>false</Checked>
+      <Settings>
+        <Truncate>true</Truncate>
+        <RowsToGenerate>0</RowsToGenerate>
+        <PopulationDetails>
+          <PopulationType>Time</PopulationType>
+          <RowsCount>100</RowsCount>
+          <LookupProportion>30</LookupProportion>
+          <ProportionOfExistingData>10</ProportionOfExistingData>
+          <TimeTicksToPopulate>100000000</TimeTicksToPopulate>
+        </PopulationDetails>
+      </Settings>
+      <Columns>
+        <Column Name="Id">
+          <Checked>false</Checked>
+          <DataType>int</DataType>
+          <Length>4</Length>
+          <Precision>10</Precision>
+        </Column>
+        <Column Name="Enquiry_Date">
+          <Checked>false</Checked>
+          <DataType>datetime</DataType>
+          <Scale>3</Scale>
+          <Length>8</Length>
+          <Precision>23</Precision>
+        </Column>
+        <Column Name="isResolved">
+          <Checked>false</Checked>
+          <DataType>bit</DataType>
+          <Length>1</Length>
+          <Precision>1</Precision>
+        </Column>
+        <Column Name="Message">
+          <Checked>false</Checked>
+          <DataType>varchar(max)</DataType>
+          <Length>-1</Length>
+        </Column>
+        <Column Name="CustomerId">
+          <Checked>false</Checked>
+          <DataType>int</DataType>
+          <Length>4</Length>
+          <Precision>10</Precision>
+        </Column>
+        <Column Name="PlanId">
+          <Checked>false</Checked>
+          <DataType>int</DataType>
+          <Length>4</Length>
+          <Precision>10</Precision>
+        </Column>
+      </Columns>
+    </Table>
+    <Table Name="dbo.Plans">
+      <Checked>false</Checked>
+      <Settings>
+        <Truncate>true</Truncate>
+        <RowsToGenerate>0</RowsToGenerate>
+        <PopulationDetails>
+          <PopulationType>Time</PopulationType>
+          <RowsCount>100</RowsCount>
+          <LookupProportion>30</LookupProportion>
+          <ProportionOfExistingData>10</ProportionOfExistingData>
+          <TimeTicksToPopulate>100000000</TimeTicksToPopulate>
+        </PopulationDetails>
+      </Settings>
+      <Columns>
+        <Column Name="Id">
+          <Checked>false</Checked>
+          <DataType>int</DataType>
+          <Length>4</Length>
+          <Precision>10</Precision>
+        </Column>
+        <Column Name="Plan_Name">
+          <Checked>false</Checked>
+          <DataType>nvarchar</DataType>
+          <Length>255</Length>
+        </Column>
+        <Column Name="Plan_Validity">
+          <Checked>false</Checked>
+          <DataType>int</DataType>
+          <Length>4</Length>
+          <Precision>10</Precision>
+        </Column>
+        <Column Name="Plan_Amount">
+          <Checked>false</Checked>
+          <DataType>decimal</DataType>
+          <Scale>2</Scale>
+          <Length>9</Length>
+          <Precision>10</Precision>
+        </Column>
+        <Column Name="Max_Rounds">
+          <Checked>false</Checked>
+          <DataType>int</DataType>
+          <Length>4</Length>
+          <Precision>10</Precision>
+        </Column>
+      </Columns>
+    </Table>
+    <Table Name="dbo.RansomwareSusceptibilityTests">
+      <Checked>false</Checked>
+      <Settings>
+        <Truncate>true</Truncate>
+        <RowsToGenerate>0</RowsToGenerate>
+        <PopulationDetails>
+          <PopulationType>Time</PopulationType>
+          <RowsCount>100</RowsCount>
+          <LookupProportion>30</LookupProportion>
+          <ProportionOfExistingData>10</ProportionOfExistingData>
+          <TimeTicksToPopulate>100000000</TimeTicksToPopulate>
+        </PopulationDetails>
+      </Settings>
+      <Columns>
+        <Column Name="AffectedApplication">
+          <Checked>false</Checked>
+          <DataType>varchar</DataType>
+          <Length>500</Length>
+        </Column>
+        <Column Name="RansomwareType">
+          <Checked>false</Checked>
+          <DataType>varchar</DataType>
+          <Length>150</Length>
+        </Column>
+        <Column Name="DomainId">
+          <Checked>false</Checked>
+          <DataType>uniqueidentifier</DataType>
+          <Length>16</Length>
+        </Column>
+      </Columns>
+    </Table>
+    <Table Name="dbo.Subdomains">
+      <Checked>false</Checked>
+      <Settings>
+        <Truncate>true</Truncate>
+        <RowsToGenerate>0</RowsToGenerate>
+        <PopulationDetails>
+          <PopulationType>Time</PopulationType>
+          <RowsCount>100</RowsCount>
+          <LookupProportion>30</LookupProportion>
+          <ProportionOfExistingData>10</ProportionOfExistingData>
+          <TimeTicksToPopulate>100000000</TimeTicksToPopulate>
+        </PopulationDetails>
+      </Settings>
+      <Columns>
+        <Column Name="Name">
+          <Checked>false</Checked>
+          <DataType>nvarchar</DataType>
+          <Length>500</Length>
+        </Column>
+        <Column Name="DomainId">
+          <Checked>false</Checked>
+          <DataType>uniqueidentifier</DataType>
+          <Length>16</Length>
+        </Column>
+        <Column Name="IpAddress">
+          <Checked>false</Checked>
+          <DataType>varchar</DataType>
+          <Length>50</Length>
+        </Column>
+      </Columns>
+    </Table>
+    <Table Name="dbo.Transactions">
+      <Checked>false</Checked>
+      <Settings>
+        <Truncate>true</Truncate>
+        <RowsToGenerate>0</RowsToGenerate>
+        <PopulationDetails>
+          <PopulationType>Time</PopulationType>
+          <RowsCount>100</RowsCount>
+          <LookupProportion>30</LookupProportion>
+          <ProportionOfExistingData>10</ProportionOfExistingData>
+          <TimeTicksToPopulate>100000000</TimeTicksToPopulate>
+        </PopulationDetails>
+      </Settings>
+      <Columns>
+        <Column Name="Id">
+          <Checked>false</Checked>
+          <DataType>int</DataType>
+          <Length>4</Length>
+          <Precision>10</Precision>
+        </Column>
+        <Column Name="Transaction_Id">
+          <Checked>false</Checked>
+          <DataType>int</DataType>
+          <Length>4</Length>
+          <Precision>10</Precision>
+        </Column>
+        <Column Name="Plan_Start">
+          <Checked>false</Checked>
+          <DataType>datetime</DataType>
+          <Scale>3</Scale>
+          <Length>8</Length>
+          <Precision>23</Precision>
+        </Column>
+        <Column Name="Plan_End">
+          <Checked>false</Checked>
+          <DataType>datetime</DataType>
+          <Scale>3</Scale>
+          <Length>8</Length>
+          <Precision>23</Precision>
+        </Column>
+        <Column Name="Current_Round">
+          <Checked>false</Checked>
+          <DataType>int</DataType>
+          <Length>4</Length>
+          <Precision>10</Precision>
+        </Column>
+        <Column Name="IsLatest">
+          <Checked>false</Checked>
+          <DataType>bit</DataType>
+          <Length>1</Length>
+          <Precision>1</Precision>
+        </Column>
+        <Column Name="CustomerId">
+          <Checked>false</Checked>
+          <DataType>int</DataType>
+          <Length>4</Length>
+          <Precision>10</Precision>
+        </Column>
+        <Column Name="PlanId">
+          <Checked>false</Checked>
+          <DataType>int</DataType>
+          <Length>4</Length>
+          <Precision>10</Precision>
+        </Column>
+      </Columns>
+    </Table>
+    <Table Name="dbo.Users">
+      <Checked>false</Checked>
+      <Settings>
+        <Truncate>true</Truncate>
+        <RowsToGenerate>0</RowsToGenerate>
+        <PopulationDetails>
+          <PopulationType>Time</PopulationType>
+          <RowsCount>100</RowsCount>
+          <LookupProportion>30</LookupProportion>
+          <ProportionOfExistingData>10</ProportionOfExistingData>
+          <TimeTicksToPopulate>100000000</TimeTicksToPopulate>
+        </PopulationDetails>
+      </Settings>
+      <Columns>
+        <Column Name="Id">
+          <Checked>false</Checked>
+          <DataType>int</DataType>
+          <Length>4</Length>
+          <Precision>10</Precision>
+        </Column>
+        <Column Name="Username">
+          <Checked>false</Checked>
+          <DataType>nvarchar</DataType>
+          <Length>255</Length>
+        </Column>
+        <Column Name="Password">
+          <Checked>false</Checked>
+          <DataType>nvarchar</DataType>
+          <Length>255</Length>
+        </Column>
+        <Column Name="IsCustomer">
+          <Checked>false</Checked>
+          <DataType>bit</DataType>
+          <Length>1</Length>
+          <Precision>1</Precision>
+        </Column>
+        <Column Name="IsAdmin">
+          <Checked>false</Checked>
+          <DataType>bit</DataType>
+          <Length>1</Length>
+          <Precision>1</Precision>
+        </Column>
+        <Column Name="IsEmployee">
+          <Checked>false</Checked>
+          <DataType>bit</DataType>
+          <Length>1</Length>
+          <Precision>1</Precision>
+        </Column>
+        <Column Name="CustomerId">
+          <Checked>false</Checked>
+          <DataType>int</DataType>
+          <Length>4</Length>
+          <Precision>10</Precision>
+        </Column>
+        <Column Name="IsActive">
+          <Checked>false</Checked>
+          <DataType>bit</DataType>
+          <Length>1</Length>
+          <Precision>1</Precision>
+        </Column>
+      </Columns>
+    </Table>
+    <Table Name="dbo.Vulnerabilities">
+      <Checked>false</Checked>
+      <Settings>
+        <Truncate>true</Truncate>
+        <RowsToGenerate>0</RowsToGenerate>
+        <PopulationDetails>
+          <PopulationType>Time</PopulationType>
+          <RowsCount>100</RowsCount>
+          <LookupProportion>30</LookupProportion>
+          <ProportionOfExistingData>10</ProportionOfExistingData>
+          <TimeTicksToPopulate>100000000</TimeTicksToPopulate>
+        </PopulationDetails>
+      </Settings>
+      <Columns>
+        <Column Name="Id">
+          <Checked>false</Checked>
+          <DataType>uniqueidentifier</DataType>
+          <Length>16</Length>
+        </Column>
+        <Column Name="Name">
+          <Checked>false</Checked>
+          <DataType>nvarchar</DataType>
+          <Length>500</Length>
+        </Column>
+        <Column Name="Path">
+          <Checked>false</Checked>
+          <DataType>varchar</DataType>
+          <Length>500</Length>
+        </Column>
+        <Column Name="SeverityRank">
+          <Checked>false</Checked>
+          <DataType>int</DataType>
+          <Length>4</Length>
+          <Precision>10</Precision>
+        </Column>
+        <Column Name="DomainId">
+          <Checked>false</Checked>
+          <DataType>uniqueidentifier</DataType>
+          <Length>16</Length>
+        </Column>
+        <Column Name="IpAddress">
+          <Checked>false</Checked>
+          <DataType>varchar</DataType>
+          <Length>50</Length>
+        </Column>
+        <Column Name="Description">
+          <Checked>false</Checked>
+          <DataType>varchar(max)</DataType>
+          <Length>-1</Length>
+        </Column>
+        <Column Name="Remidiation">
+          <Checked>false</Checked>
+          <DataType>varchar(max)</DataType>
+          <Length>-1</Length>
+        </Column>
+      </Columns>
+    </Table>
+  </Tables>
+  <SynchronizationOptions xsi:type="SqlDataSynchronizationOptions">
+    <SynchronizationFileName>D:\New folder\Live_Project_Invia\Queries\DataGeneration_202311072132.sql</SynchronizationFileName>
+    <ExecuteCustomScriptTypeBefore>UseEmbeddedScript</ExecuteCustomScriptTypeBefore>
+    <ExecuteCustomScriptTypeAfter>UseEmbeddedScript</ExecuteCustomScriptTypeAfter>
+    <BackupPathName>C:\Program Files\Microsoft SQL Server\MSSQL16.MSSQLSERVER\MSSQL\Backup</BackupPathName>
+    <CheckObjectExistence>true</CheckObjectExistence>
+    <CompareColumnStoreTables>true</CompareColumnStoreTables>
+  </SynchronizationOptions>
+</DataGenDocument>

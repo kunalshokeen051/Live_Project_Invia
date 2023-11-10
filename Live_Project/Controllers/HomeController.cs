@@ -10,6 +10,18 @@ namespace Live_Project.Controllers
 
         public IActionResult Index()
         {
+            if(HttpContext.Session.GetString("usr") != null)
+            {
+                if(HttpContext.Session.GetString("UserType") == "Admin")
+                {
+                    return RedirectToAction("Index","Dashboard");
+                }
+                else
+                {
+                    int? id = HttpContext.Session.GetInt32("CurrentUser");
+                    return RedirectToAction("ShowCustomerData", "Customer",new { id });
+                }
+            }
             return View();
         }
 

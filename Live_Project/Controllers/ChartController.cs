@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Text.Json.Nodes;
+using System.Transactions;
 
 namespace Live_Project.Controllers
 {
@@ -87,5 +88,46 @@ namespace Live_Project.Controllers
 
         }
 
+
+        [Route("/charts/ThreatLevel/{id}")]
+        public IActionResult ThreatLevel(int id)
+        {
+            try
+            {
+                string sqlQuery = "GetVulnerabilityCounts";
+
+                var p = new DynamicParameters();
+                p.Add("@customer_Id", id);
+                p.Add("@Low_threat", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                p.Add("@Medium_threat", dbType: DbType.Int32, direction: ParameterDirection.Output);
+                p.Add("@High_threat", dbType: DbType.Int32, direction: ParameterDirection.Output);
+
+                _db.QueryFirstOrDefault(sqlQuery, p, commandType: CommandType.StoredProcedure);
+
+                int[] Result = new int [3];
+                Result[0] = p.Get<int>("@Low_threat");
+                Result[1] = p.Get<int>("@Medium_threat");
+                Result[2] = p.Get<int>("@High_threat");
+
+                if (Result != null)
+                {
+                    return Ok(Result);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+
+            catch (SqlException ex)
+            {
+                return StatusCode(500, "An error occurred while processing the request." + ex.Message);
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(500, "An unexpected error occurred." + ex.Message);
+            }
+        }
     }
 }

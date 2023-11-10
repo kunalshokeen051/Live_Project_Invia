@@ -4,6 +4,7 @@ using LP.Repository.Interfaces;
 using Microsoft.AspNetCore.OutputCaching;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using LP.Repository;
+using Microsoft.AspNetCore.Http;
 
 [Authorized_Access_Only]
 public class CustomerController : Controller
@@ -36,10 +37,23 @@ public class CustomerController : Controller
     {
         try
         {
-            var Result =  _unitOfWork.CustomerRepository.GetCustomerById(id);
-            _unitOfWork.SaveChanges();
+            if (HttpContext.Session.GetString("CurrentUser") != null || HttpContext.Session.GetString("UserType") == "Admin")
+            {
+                if (Convert.ToInt32(HttpContext.Session.GetString("CurrentUser")) == id || HttpContext.Session.GetString("UserType") == "Admin")
+                {
+                    var Result = _unitOfWork.CustomerRepository.GetCustomerById(id);
+                    HttpContext.Session.SetString("CurrentUser", Result.Id.ToString());
+                    _unitOfWork.SaveChanges();
 
-            return View(Result);
+                    return View(Result);
+                }
+                else
+                {
+                    return StatusCode(401, "You are not Authorized to access this page");
+                }
+            }
+
+            return RedirectToAction("Index", "Login");
         }
 
         catch(Exception e)

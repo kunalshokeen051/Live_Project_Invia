@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using AspNetCoreHero.ToastNotification.Abstractions;
 using LP.Repository;
+using System.Net;
 
 namespace Live_Project.Controllers
 {
@@ -25,7 +26,6 @@ namespace Live_Project.Controllers
         {
             if (HttpContext.Session.GetString("UserType") == "Admin")
             {
-                _notyf.Success("Hello Admin!",2);
                 return View();
             }
             else
@@ -143,31 +143,6 @@ namespace Live_Project.Controllers
             }
         }
 
-        [HttpPost]
-        public IActionResult UpdateCustomer(Customer obj)
-        {
-            try
-            {
-                var status = _unitOfWork.AdminRepository.UpdateCustomer(obj);
-                if (status)
-                {
-                    _unitOfWork.SaveChanges();
-                    _notyf.Success("User Updated Deleted");
-                    return Json(new { success = true });
-                }
-                else
-                {
-                    _notyf.Error("Error Occured while Updating Customer");
-                    throw new Exception("Error Occured while Updating Customer");
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, "An error occured" + ex.Message);
-            }
-        }
-
-        [HttpPost]
         public IActionResult UpdateRound(int Id)
         {
             try
@@ -182,10 +157,72 @@ namespace Live_Project.Controllers
                 else
                 {
                     _notyf.Error("Error, can't update the rounds");
-                    return RedirectToAction("ShowCustomerData","Customer");
                 }
+                    return RedirectToAction("ShowCustomerData","Customer",new {Id});
             }
             catch(Exception ex)
+            {
+                return StatusCode(500, "An error occured" + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult AddDomain(Domain domain)
+        {
+            try
+            {
+                var status = _unitOfWork.AdminRepository.AddDomain(domain);
+
+                return Json(new { success = true, message = "message received"});
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occured" + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult UpdateCustomer(CustomerDetailsVM obj)
+        {
+            try
+            {
+                var status = _unitOfWork.AdminRepository.UpdateCustomer(obj);
+                if (status)
+                {
+                    _unitOfWork.SaveChanges();
+                    _notyf.Success("User Updated Successfully");
+                    int Cus_Id = Convert.ToInt32(HttpContext.Session.GetString("CurrentUser"));
+                    return RedirectToAction("ShowCustomerData", "Customer", new { Id = Cus_Id });
+                }
+                else
+                {
+                    _notyf.Error("Error Occured while Updating Customer");
+                    throw new Exception("Error Occured while Updating Customer");
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occured" + ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public IActionResult DeleteDomain(int customerId, string ip)
+        {
+            try
+            {
+                var status = _unitOfWork.AdminRepository.DeleteDomain(customerId, ip);
+
+                if (status)
+                {
+                return Json(new { success = true, message = "message received" });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Some Error Occured" });
+                }
+            }
+            catch (Exception ex)
             {
                 return StatusCode(500, "An error occured" + ex.Message);
             }

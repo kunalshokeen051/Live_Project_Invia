@@ -13,6 +13,8 @@ namespace LP.Models.ViewModels
     {
         public int Id { get; set; }
 
+
+
         [Display(Name = "First Name")]
         [StringLength(100, MinimumLength = 3, ErrorMessage = "Enter Valid Name.")]
         [Required(ErrorMessage = "First Name is required.")]
@@ -34,18 +36,28 @@ namespace LP.Models.ViewModels
         public string Organization { get; set; }
 
         [Display(Name = "Plan Name")]
-        public string Plan_Name { get; set; }
+        public PlanType Plan_Name { get; set; }
 
         [Display(Name = "Current Round")]
         public int Current_Round { get; set; }
-       
+
         [Display(Name = "Plan Start")]
         public DateTime Plan_Start { get; set; }
-        
+
         [Display(Name = "Plan End")]
         public DateTime Plan_End { get; set; }
 
         [DisplayName("Plan Id")]
         public int PlanId { get; set; }
+
     }
+
+     public enum PlanType
+    {
+        Basic = 1,
+        Standard = 2,
+        Premium = 3
+    }
+
+
 }

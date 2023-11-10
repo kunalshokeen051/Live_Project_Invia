@@ -6,6 +6,7 @@ using Dapper;
 using System.Data;
 using LP.Models.ViewModels;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace LP.Repository.Repositories
 {
@@ -50,7 +51,6 @@ namespace LP.Repository.Repositories
                 return false;
             }
         }
-
         int GenerateNewTransactionId()
         {
             Random rand = new Random();
@@ -121,78 +121,6 @@ namespace LP.Repository.Repositories
             {
                 return false;
                 throw new Exception("Error deleting customer.", ex);
-            }
-        }
-
-        bool IAdminRepository.UpdateCustomer(Customer obj)
-        {
-            try
-            {
-                int GenerateNewTransactionId()
-                {
-                    Random rand = new Random();
-                    int transactionId = rand.Next(100000, 999999);
-
-                    bool isUnique = IsTransactionIdUnique(transactionId);
-                    if (isUnique)
-                    {
-                        return transactionId;
-                    }
-                    else
-                    {
-                        return GenerateNewTransactionId();
-                    }
-
-                }
-
-                _dbConnection.Execute("sp_Update_Customer", new
-                {
-                    Id = obj.Id,
-                    Email = obj.Email,
-                    First_Name = obj.F_Name,
-                    Last_Name = obj.L_Name,
-                    City = obj.City.ToString(),
-                    Country = obj.Country.ToString(),
-                    Address = obj.Address,
-                    Current_Plan = obj.CurrentPlan,
-                    TransactionId = GenerateNewTransactionId(),
-                    Organization = obj.Organisation
-                }, commandType: CommandType.StoredProcedure, transaction: _transaction);
-
-
-                bool IsTransactionIdUnique(int transactionId)
-                {
-                    try
-                    {
-                        string query = "SELECT COUNT(*) FROM Transactions WHERE Transaction_Id = @transactionId";
-
-                        DynamicParameters dp = new DynamicParameters();
-                        dp.Add("@transactionId", transactionId);
-
-                        int count = _dbConnection.Query<int>(query, dp, transaction: _transaction).FirstOrDefault();
-                        if (count == 0)
-                        {
-                            return true;
-                        }
-                        else
-                        {
-                            return false;
-                        }
-                    }
-
-                    catch (Exception ex)
-                    {
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-
-
-            catch (Exception ex)
-            {
-                return false;
             }
         }
 
@@ -277,6 +205,142 @@ namespace LP.Repository.Repositories
             }
             catch(Exception ex)
             {
+                throw;
+            }
+        }
+
+        IEnumerable<DomainVM> IAdminRepository.GetAllDomains(int Id)
+        {
+            try
+            {
+                string sql = @" select c.Id,d.Title,d.Id,d.Name, d.IpAddress,d.CriticalPort,d.OpenPort,d.WebServer,d.Round,p.Max_Rounds,t.Current_Round from Customers c
+                                INNER JOIN Transactions t on t.PlanId = c.Current_Plan
+                                inner join Plans p on p.Id = t.PlanId
+                                inner join Domains d on d.Customer_Id = c.Id
+                                where c.Id =@Cus_Id  and t.IsLatest = 1 order by d.Round desc
+                               ";
+                var domains = _dbConnection.Query<DomainVM>
+                (sql, new { @Cus_Id = Id }, transaction: _transaction);
+                return domains.ToList();
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred: " + ex.Message);
+                throw;
+            }
+        }
+
+        IEnumerable<SubDomainVM> IAdminRepository.GetAllSubDomains(int Id)
+        {
+            try
+            {
+                string sql = "select c.Id as CustomerId,s.Name,s.IpAddress,d.Name as Domain " +
+                    "from Customers c join Domains d on d.Customer_Id = c.Id " +
+                    "join Subdomains s on s.DomainId = d.Id where c.Id = @Cus_Id";
+                var subdomains = _dbConnection.Query<SubDomainVM>
+                (sql, new { Cus_Id = Id }, transaction: _transaction);
+                return subdomains.ToList();
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred: " + ex.Message);
+                throw;
+            }
+        }
+
+        IEnumerable<VulnerableDomainVM> IAdminRepository.GetAllVulnerableDomains(int Id)
+        {
+            try
+            {
+
+                var vulnerableDomains = _dbConnection.Query<VulnerableDomainVM>
+                ("sp_GetAllVulnerableDomains", new { Customer_Id = Id }, commandType: CommandType.StoredProcedure, transaction: _transaction);
+                return vulnerableDomains;
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred: " + ex.Message);
+                throw;
+            }
+
+
+        }
+        bool IAdminRepository.AddDomain(Domain obj)
+        {
+            try
+            {
+                var result =  _dbConnection.Execute("sp_Add_Domain", new
+                {
+                    Id = obj.Id,
+                    Title = obj.Title,
+                    Name = obj.Name,
+                    IpAddress = obj.IpAddress,
+                    CriticalPort = obj.CriticalPort,
+                    OpenPort = obj.OpenPort,
+                    WebServer = obj.WebServer
+                }, commandType: CommandType.StoredProcedure, transaction: _transaction);
+
+                /*result*/
+                return true;
+            }
+
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        bool IAdminRepository.UpdateCustomer(CustomerDetailsVM obj)
+        {
+            try
+            {
+                _dbConnection.Execute("Update_Customer", new
+                {
+                    Customer_Id = obj.Id,
+                    Email = obj.Email,
+                    First_Name = obj.First_Name,
+                    Last_Name = obj.Last_Name,
+                    City = obj.City,
+                    Address = obj.Address,
+                    Current_Plan = obj.Plan_Name,
+                    Organization = obj.Organization
+                }, commandType: CommandType.StoredProcedure, transaction: _transaction);
+
+
+                return true;
+            }
+
+
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        bool IAdminRepository.DeleteDomain(int id,string IpAddress)
+        {
+
+            try
+            {
+                string sql = @"DELETE FROM Domains WHERE IpAddress = @IpAddress AND Customer_Id = @id";
+                var result = _dbConnection.QueryFirstOrDefault(sql, new { @IpAddress = IpAddress, @id = id},transaction:_transaction);
+
+                if(result  == null)
+                {
+                    return false;
+                }
+                else
+                {
+                  return true;
+                }
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred: " + ex.Message);
                 throw;
             }
         }

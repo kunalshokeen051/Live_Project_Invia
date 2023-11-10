@@ -2,15 +2,16 @@
 @{
     ViewData["Title"] = "Login";
 }
-
+    
 <div class="container col-xl-10 col-xxl-8 px-4 py-1">
-    <p>@ViewBag.Message</p>
     <div class="row align-items-center g-lg-5 py-5">
         <div class="col-lg-7 text-center text-lg-start">
-            <h1 class="display-4 fw-bold lh-1 mb-3">Welcome to <span class="" style="color:#9A70DB">Invia Connect</span></h1>
-            <p class="col-lg-10 fs-4">Please enter your credentials to access Invia Connect, your gateway to seamless B2B communication and collaboration. 
-                Elevate your business to new heights with secure and efficient login. 
-                If you're new here, sign up now to join our network of possibilities.</p>
+            <h1 class="display-4 fw-bold lh-1 mb-3">Welcome to <span style="color:#BA55D3">Invia Guard</span></h1>
+            <p class="col-lg-10 fs-4">
+              Please enter your credentials to access Invia Guard 360, your gateway to seamless B2B Security and System Testing. 
+              Elevate your business to new heights with secure and efficient login. 
+              If you're new here, join our network of possibilities.
+            </p>
         </div>
         <div class="col-md-10 mx-auto col-lg-5">
             <form class="p-4 p-md-5 border rounded-3 bg-light" method="post" asp-action="Index" asp-controller="Login">
@@ -35,9 +36,19 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            var form = $('.p-4');
-            form.hide();
-            form.fadeIn(1000);
+            $(".display-4").addClass("animate__animated animate__fadeIn animate__fast");
+
+            $(".fs-4").addClass("animate__animated animate__fadeInUp animate__fast");
+
+            $("form").addClass("animate__animated animate__fadeInRight animate__fast");
+
+            $(".form-floating").addClass("animate__animated animate__fadeInRight animate__fast");
+
+            $("button").addClass("animate__animated animate__fadeInUpBig animate__fast animate__bounce");
+
+            $("hr").addClass("animate__animated animate__fadeIn animate__fast animate__delay-2s");
+
+            $(".text-muted").addClass("animate__animated animate__fadeIn animate__fast animate__delay-2s");
         });
     </script>
 }

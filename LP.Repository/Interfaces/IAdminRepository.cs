@@ -13,9 +13,15 @@ namespace LP.Repository.Interfaces
         bool AddCustomer(Customer obj);
         bool DeleteCustomer(int id);
         bool DisableUser(int id);
-        bool UpdateCustomer(Customer obj);
         bool UpdateRound(int Id);
         IEnumerable<CustomerEnquiryViewModel> Enquires();
         int ActiveEnquires();
+        IEnumerable<DomainVM> GetAllDomains(int Id);
+        IEnumerable<SubDomainVM> GetAllSubDomains(int Id);
+        IEnumerable<VulnerableDomainVM> GetAllVulnerableDomains(int Id);
+        bool AddDomain(Domain domain);
+        bool UpdateCustomer(CustomerDetailsVM obj);
+        bool DeleteDomain(int id, string IpAddress);
+
     }
 }

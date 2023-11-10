@@ -63,7 +63,8 @@ namespace LP.Models
         Pune,
         Ahmedabad,
         Jaipur,
-        Chandigarh
+        Chandigarh,
+        Other
     }
 
     public enum Country

@@ -6,6 +6,7 @@ using Dapper;
 using LP.Models;
 using LP.Repository;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Live_Project.Controllers
@@ -55,6 +56,7 @@ namespace Live_Project.Controllers
                         else
                         {
                             HttpContext.Session.SetString("UserType", "Customer");
+                            HttpContext.Session.SetString("CurrentUser", user.CustomerId.ToString());
                             return RedirectToAction("ShowCustomerData", "Customer", new { Id = user.CustomerId });
                         }
                     }

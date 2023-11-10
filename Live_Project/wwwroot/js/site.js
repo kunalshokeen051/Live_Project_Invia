@@ -1,4 +1,6 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿let menuToggle = document.querySelector('.menu-toggle');
+let navigation = document.querySelector('.navigation');
 
-// Write your JavaScript code.
+menuToggle.onclick = function () {
+    navigation.classList.toggle('active');
+}
