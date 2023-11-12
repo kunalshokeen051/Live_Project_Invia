@@ -25,5 +25,33 @@ namespace Live_Project.Controllers
             return View();
         }
 
+        public IActionResult About()
+        {
+            return View();
+        } 
+        
+        public IActionResult Contact()
+        {
+            return View();
+        }
+        
+        public IActionResult Services()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Enquiry()
+        {
+            try
+            {
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
     }
 }

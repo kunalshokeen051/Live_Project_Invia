@@ -15,7 +15,6 @@ namespace LP.Repository.Repositories
         private IAdminRepository _adminRepository;
         private ICustomerRepository _customerRepository;
 
-
         public UnitOfWork(IDbConnection dbConnection)
         {
             _dbConnection = dbConnection;

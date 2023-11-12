@@ -51,6 +51,7 @@ namespace LP.Repository.Repositories
                 return false;
             }
         }
+
         int GenerateNewTransactionId()
         {
             Random rand = new Random();
@@ -67,6 +68,7 @@ namespace LP.Repository.Repositories
             }
 
         }
+
         bool IsTransactionIdUnique(int transactionId)
         {
             try
@@ -194,6 +196,7 @@ namespace LP.Repository.Repositories
                 throw;
             }
         }
+
         int IAdminRepository.ActiveEnquires()
         {
             try

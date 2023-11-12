@@ -398,7 +398,7 @@ END;
                     ON t.CustomerId = c.Id
                   JOIN Plans p
                     ON p.Id = t.PlanId
-                  WHERE c.Id = @customerId
+                  WHERE c.Id = @customerId order by t.IsLatest desc 
                 END
 
                   --Stored procedure for Deleting User
@@ -494,90 +494,6 @@ BEGIN
     WHERE
         Id = @Customer_Id;
 END
-
--- STORED PROCEDUR EXECUTION
- EXEC sp_GetAllCustomerData
-EXEC sp_Create_Customer 'kunalshokeen051@gmail.com',
-	'kunal',
-	'shokeen',
-	'Gurgoan',
-	'India',
-	'jharsa gurgaon',
-	3,
-	1234556,
-	3,
-	'Tower Research'
-
-                      EXEC sp_AddEnquiry 2
-                                        ,1
-                      EXEC sp_CustomerTransactions 3012
-                      EXEC sp_CustomerPlanDetails 4
-                      EXEC Sp_Create_Transaction 324324
-                                                ,'2023-10-28 18:17:08.350'
-                                                ,'2024-04-28 18:17:08.350'
-                                                ,1
-                                                ,1
-                                                ,3007
-                                                ,2
-                      EXEC Sp_Create_User 'kunalshokeen99@gmail.com'
-                                         ,'admin123'
-                                         ,0
-                                         ,1
-                                         ,1
-                                         ,0
-                      EXEC Sp_Delete_Customer 3024
-                      EXEC Sp_RoundUpdate 3025		  
-                   exec Sp_Update_Customer 1,'ddgangwar09@gmail.com','Dipanshu','Gangwar','Noida','Noida, Sector-59',1,'Google'
-
-                      --Calling Tables
-                      SELECT
-                        *
-                      FROM Plans
-                      SELECT
-                        *
-                      FROM Customers
-                      SELECT
-                        *
-                      FROM Transactions
-                      SELECT
-                        *
-                      FROM Users
-                      SELECT
-                        *
-                      FROM Enquires
-					  select
-					  *
-					  from [Domains]
-					  select
-					  *
-					  from [Subdomains]
-					  select
-					  *
-					  from [RansomwareSusceptibilityTests]
-					  select
-					  *
-					  from [Vulnerabilities]
-
-
--- --------------------------------------------------------------------------------------------------------------------------------		
-
-INSERT INTO [dbo].[Domains] (Id, [Name], [Title], [RegDate], [ExpDate], [Registrar], [Size], [WebServer], [Country], [OpenPort], [CriticalPort], [IpAddress], [Customer_Id], [Round])
-VALUES 
-(NEWID(), 'example1.com', 'Example Website 6', '2023-01-15', '2024-01-15', 'GoDaddy', 'Small', 'Apache', 'United States', '80, 443', '22', '192.168.1.1', 4, 2),
-
-INSERT INTO Vulnerabilities
-     VALUES
-           (
-		    NEWID(),
-            'Vulnerability9',
-            'Description for Vulnerability9',
-            '/path9',
-            10,
-            'Remediation9',
-            'd2d9030b-664e-4ff9-b0f2-67059a9670e2',
-            '192.168.1.14'
-		)
-
 
  -- To select all the Domains of particular customer
  select c.Id,d.Title,d.Id,d.Name, d.IpAddress,d.CriticalPort,d.OpenPort,d.WebServer,d.Round,p.Max_Rounds,t.Current_Round from Customers c
@@ -743,6 +659,74 @@ SET @Round = (SELECT Current_Round FROM Transactions WHERE CustomerId = @Id AND 
  Insert into Domains(Id,Name,Title,RegDate,ExpDate,Registrar,Size,WebServer,Country,OpenPort,CriticalPort,IpAddress,Customer_Id,[Round])
  values(NEWID(),@Name,@Title,@RegDate,@ExpDate,@Registrar,@Size,@WebServer,@Country,@OpenPort,@CriticalPort,@IpAddress,@Id,@Round)
 end
+
+-- STORED PROCEDUR EXECUTION
+ EXEC sp_GetAllCustomerData
+EXEC sp_Create_Customer 'kunalshokeen051@gmail.com',
+	'kunal',
+	'shokeen',
+	'Gurgoan',
+	'India',
+	'jharsa gurgaon',
+	3,
+	1234556,
+	3,
+	'Tower Research'
+
+                      EXEC sp_AddEnquiry 2
+                                        ,1
+                      EXEC sp_CustomerTransactions 3012
+                      EXEC sp_CustomerPlanDetails 4
+                      EXEC Sp_Create_Transaction 324324
+                                                ,'2023-10-28 18:17:08.350'
+                                                ,'2024-04-28 18:17:08.350'
+                                                ,1
+                                                ,1
+                                                ,3007
+                                                ,2
+                      EXEC Sp_Create_User 'kunalshokeen99@gmail.com'
+                                         ,'admin123'
+                                         ,0
+                                         ,1
+                                         ,1
+                                         ,0
+                      EXEC Sp_Delete_Customer 3024
+                      EXEC Sp_RoundUpdate 3025		  
+                   exec Sp_Update_Customer 1,'ddgangwar09@gmail.com','Dipanshu','Gangwar','Noida','Noida, Sector-59',1,'Google'
+
+                      --Calling Tables
+                      SELECT
+                        *
+                      FROM Plans
+                      SELECT
+                        *
+                      FROM Customers
+                      SELECT
+                        *
+                      FROM Transactions
+                      SELECT
+                        *
+                      FROM Users
+                      SELECT
+                        *
+                      FROM Enquires
+					  select
+					  *
+					  from [Domains]
+					  select
+					  *
+					  from [Subdomains]
+					  select
+					  *
+					  from [RansomwareSusceptibilityTests]
+					  select
+					  *
+					  from [Vulnerabilities]
+
+
+-- --------------------------------------------------------------------------------------------------------------------------------		
+
+
 
 -- to get domain count
 select COUNT(*) from Domains where Customer_Id = 27

@@ -1,6 +1,6 @@
 INSERT INTO Plans (Id,Plan_Name, Plan_Validity, Plan_Amount, Max_Rounds)
-VALUES (1,'Basic', 30, 19.99, 1),
-       (2,'Standard', 90, 49.99, 3),
+VALUES (1,'Basic', 90, 19.99, 1),
+       (2,'Standard', 180, 49.99, 3),
        (3,'Premium', 365, 99.99, 6);
 
 
@@ -16,11 +16,9 @@ VALUES (101, '2023-01-15 00:00:00', '2023-04-15 00:00:00', 1, 1, 1, 1),
        (103, '2023-02-10 00:00:00', '2023-05-10 00:00:00', 3, 1, 3, 3);
 
 
-INSERT INTO Users (Username, Password, IsCustomer, IsAdmin, IsEmployee, CustomerId, TransactionId, IsActive)
-VALUES ('user1', 'password1', 1, 0, 0, 1, 1, 1),
-       ('kunalshokeen99', 'admin123', 0, 1, 0, NULL, NULL, 1),
-       ('user2', 'password2', 1, 0, 0, 2, 2, 1),
-       ('employee1', 'empypass', 0, 0, 1, NULL, NULL, 1);
+INSERT INTO Users (Username, Password, IsCustomer, IsAdmin, IsEmployee, CustomerId, IsActive)
+VALUES ('munna', 'admin123', 0, 1, 1,0, 1),
+       ('neeraj', 'admin123', 0, 1, 1, 0, 1)
 
 
 	   -- Inserting entries into the Enquires table

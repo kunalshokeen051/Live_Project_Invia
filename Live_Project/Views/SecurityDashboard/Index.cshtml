@@ -319,7 +319,7 @@
                 high = data[2];
                 total_threats = low + medium + high;
                
-               // Threat Level Scoring Algorithm
+               // Weighted Threat based on Severity
                 const threatLevel = total_threats !== 0
                     ? ((high * 3 + medium * 2 + low) / (total_threats * 6)) * 100
                     : 0;

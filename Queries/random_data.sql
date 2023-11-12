@@ -83,5 +83,3 @@ BEGIN
     SET @Counter = @Counter + 1;
 END;
 
-
-select * from Vulnerabilities

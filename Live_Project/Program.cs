@@ -24,7 +24,9 @@ builder.Services.AddSession(options =>
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddTransient<IDbConnection>(db => new SqlConnection(connectionString));
 
+
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+
 builder.Services.AddScoped<ICustomerRepository>(serviceProvider =>
 {
     var dbConnection = serviceProvider.GetRequiredService<IDbConnection>();
