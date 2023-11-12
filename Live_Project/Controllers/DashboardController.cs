@@ -147,8 +147,8 @@ namespace Live_Project.Controllers
         {
             try
             {
-                var status = _unitOfWork.AdminRepository.UpdateRound(Id);
-                if (status)
+                var Roundstatus = _unitOfWork.AdminRepository.UpdateRound(Id);
+                if (Roundstatus)
                 {
                     _unitOfWork.SaveChanges();
                     _notyf.Success("Next Round Started Successfully");
@@ -156,9 +156,10 @@ namespace Live_Project.Controllers
                 }
                 else
                 {
-                    _notyf.Error("Error, can't update the rounds");
+                    _notyf.Warning("Rounds can't be Updated,Please Consider Upgrading Plan");
+                    return Json(new { success = false });
+
                 }
-                    return RedirectToAction("ShowCustomerData","Customer",new {Id});
             }
             catch(Exception ex)
             {
@@ -222,6 +223,30 @@ namespace Live_Project.Controllers
                     return Json(new { success = false, message = "Some Error Occured" });
                 }
             }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An error occured" + ex.Message);
+            }
+        }
+
+        public IActionResult DomainCount(int id)
+        {
+            try
+            {
+                int DomainCount = _unitOfWork.AdminRepository.DomainCount(id);
+
+                if(DomainCount <= 0)
+                {
+                    return NotFound();
+                }
+
+                else
+                {
+                return Json(new { success = true, Count= DomainCount });
+                }
+
+            }
+
             catch (Exception ex)
             {
                 return StatusCode(500, "An error occured" + ex.Message);

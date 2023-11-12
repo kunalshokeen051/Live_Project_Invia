@@ -41,8 +41,8 @@ public class CustomerController : Controller
             {
                 if (Convert.ToInt32(HttpContext.Session.GetString("CurrentUser")) == id || HttpContext.Session.GetString("UserType") == "Admin")
                 {
+                    HttpContext.Session.SetString("CurrentUser", id.ToString());
                     var Result = _unitOfWork.CustomerRepository.GetCustomerById(id);
-                    HttpContext.Session.SetString("CurrentUser", Result.Id.ToString());
                     _unitOfWork.SaveChanges();
 
                     return View(Result);

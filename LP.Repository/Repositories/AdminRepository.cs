@@ -213,12 +213,30 @@ namespace LP.Repository.Repositories
         {
             try
             {
-                string sql = @"select c.Id,d.Title,d.Id as DoaminId,d.Name, d.IpAddress,d.CriticalPort,d.OpenPort,d.WebServer,d.Round,p.Max_Rounds,t.Current_Round from Customers c
-                               INNER JOIN Transactions t on t.CustomerId = c.Id
-                               inner join Plans p on p.Id = t.PlanId
-                               inner join Domains d on d.Customer_Id = c.Id
-                               where c.Id = @Cus_Id and t.IsLatest = 1 order by d.Round desc";
-
+                string sql = @"SELECT
+                                     c.Id,
+                                     d.Title,
+                                     d.Id AS DomainId,
+                                     d.Name,
+                                     d.IpAddress,
+                                     d.CriticalPort,
+                                     d.OpenPort,
+                                     d.WebServer,
+                                     d.Round,
+                                     p.Max_Rounds
+                                 FROM
+                                     Customers c
+                                 INNER JOIN
+                                     Transactions t ON t.CustomerId = c.Id
+                                 INNER JOIN
+                                     Plans p ON p.Id = t.PlanId
+                                 INNER JOIN
+                                     Domains d ON d.Customer_Id = c.Id
+                                 WHERE
+                                     c.Id = @Cus_Id AND t.IsLatest = 1
+                                 ORDER BY
+                                     d.Round DESC;";
+                
                 var domains = _dbConnection.Query<DomainVM>
                 (sql, new { @Cus_Id = Id }, transaction: _transaction);
                 return domains.ToList();
@@ -228,68 +246,6 @@ namespace LP.Repository.Repositories
             {
                 Console.WriteLine("An error occurred: " + ex.Message);
                 throw;
-            }
-        }
-
-        IEnumerable<SubDomainVM> IAdminRepository.GetAllSubDomains(int Id)
-        {
-            try
-            {
-                string sql = "select c.Id as CustomerId,s.Name,s.IpAddress,d.Name as Domain " +
-                    "from Customers c join Domains d on d.Customer_Id = c.Id " +
-                    "join Subdomains s on s.DomainId = d.Id where c.Id = @Cus_Id";
-                var subdomains = _dbConnection.Query<SubDomainVM>
-                (sql, new { Cus_Id = Id }, transaction: _transaction);
-                return subdomains.ToList();
-            }
-
-            catch (Exception ex)
-            {
-                Console.WriteLine("An error occurred: " + ex.Message);
-                throw;
-            }
-        }
-
-        IEnumerable<VulnerableDomainVM> IAdminRepository.GetAllVulnerableDomains(int Id)
-        {
-            try
-            {
-
-                var vulnerableDomains = _dbConnection.Query<VulnerableDomainVM>
-                ("sp_GetAllVulnerableDomains", new { Customer_Id = Id }, commandType: CommandType.StoredProcedure, transaction: _transaction);
-                return vulnerableDomains;
-            }
-
-            catch (Exception ex)
-            {
-                Console.WriteLine("An error occurred: " + ex.Message);
-                throw;
-            }
-
-
-        }
-        bool IAdminRepository.AddDomain(Domain obj)
-        {
-            try
-            {
-                var result =  _dbConnection.Execute("sp_Add_Domain", new
-                {
-                    Id = obj.Id,
-                    Title = obj.Title,
-                    Name = obj.Name,
-                    IpAddress = obj.IpAddress,
-                    CriticalPort = obj.CriticalPort,
-                    OpenPort = obj.OpenPort,
-                    WebServer = obj.WebServer
-                }, commandType: CommandType.StoredProcedure, transaction: _transaction);
-
-                /*result*/
-                return true;
-            }
-
-            catch (Exception ex)
-            {
-                return false;
             }
         }
 
@@ -344,5 +300,65 @@ namespace LP.Repository.Repositories
                 throw;
             }
         }
+
+        bool IAdminRepository.AddDomain(Domain domain)
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerable<VulneribilitiesVM> IAdminRepository.GetVulneribilities(int Id)
+        {
+            try
+            {
+                var result = _dbConnection.Query<VulneribilitiesVM>(@"
+                                                                     SELECT
+                                                         v.Id AS VulnerabilityId,
+                                                         v.Name AS VulnerabilityName,
+                                                         v.Description AS VulnerabilityDescription,
+                                                         v.Path AS VulnerabilityPath,
+                                                         v.SeverityRank AS SeverityRanking,
+                                                         v.Remidiation AS RemediationInfo,
+                                                         d.Name AS DomainName,
+                                                         d.IpAddress AS DomainIpAddress           
+                                                     FROM
+                                                         Domains d
+                                                     JOIN
+                                                         Customers c ON d.Customer_Id = c.Id
+                                                     JOIN
+                                                         Vulnerabilities v ON v.DomainId = d.Id
+                                                     WHERE
+                                                         c.Id = @CustomerId
+                                                     ORDER BY
+                                                         v.SeverityRank DESC
+                          ", new { CustomerId = Id },transaction:_transaction);
+   
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error retrieving vulnerabilities: {ex.Message}");
+                throw;
+            }
+        }
+
+        int IAdminRepository.DomainCount(int id)
+        {
+            try
+            {
+                var query = @"select COUNT(*) from Domains where Customer_Id = @CustomerId";
+
+                var Result = _dbConnection.QuerySingle<int>(query, new { CustomerId = @id }, transaction: _transaction);
+
+                return Result;
+            }
+
+            catch(Exception ex)
+            {
+                Console.WriteLine("Error occured:" + ex.Message);
+                throw;
+            }
+        }
     }
 }
+
+

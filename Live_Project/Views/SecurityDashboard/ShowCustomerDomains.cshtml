@@ -1,15 +1,10 @@
 ﻿@model List<LP.Models.ViewModels.DomainVM> 
 
-@{
-    var rounds = Model.Select(vm => vm.Round).Distinct().OrderByDescending(r => r);
-}
-
-
 <div class="container-md">
     <button class="btn btn-danger my-4 Admin-only-Containers d-none" id="addDomainButton">Add Domain</button>
-    @foreach (var round in rounds)
+    @foreach (var roundGroup in Model.GroupBy(vm => vm.Round).OrderByDescending(g => g.Key))
     {
-        <h2>Round @round</h2>
+        <h2>Round @roundGroup.Key</h2>
         <table class="table table-bordered table-responsive-md">
             <thead>
                 <tr>
@@ -24,16 +19,16 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model.Where(vm => vm.Round == round && round <= vm.Current_Round))
+                @foreach (var item in roundGroup)
                 {
                     <tr>
-                        <td>@item.Id</td>
-                        <td>@item.Title</td>
-                        <td>@item.Name</td>
-                        <td>@item.IpAddress</td>
-                        <td>@item.CriticalPort</td>
-                        <td>@item.OpenPort</td>
-                        <td>@item.WebServer</td>
+                        <td>@(item.Id)</td>             @* ?? null-coalescing  operator*@
+                        <td>@(item.Title ?? "N/A")</td>
+                        <td>@(item.Name ?? "N/A")</td>
+                        <td>@(item.IpAddress ?? "N/A")</td>
+                        <td>@(item.CriticalPort ?? "N/A")</td>
+                        <td>@(item.OpenPort ?? "N/A")</td>
+                        <td class="web-server">@(item.WebServer ?? "N/A")</td>
                         <td class="Admin-only-Containers d-none"><button data-ip="@item.IpAddress" class="btn btn-danger" id="delete-button">X</button></td>
                     </tr>
                 }
@@ -138,6 +133,8 @@
             } else {
                 $('.Admin-only-Containers').removeClass("d-none");
             }
+
+            $('.web-server:contains("N/A")').css('color', 'red');
 
             $("#addDomainButton").click(function () {
                 $("#domainModal").modal("show");

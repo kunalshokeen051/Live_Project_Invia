@@ -5,19 +5,19 @@
     string fullName = (Model.First_Name + " " + Model.Last_Name).ToUpper();
 }
 
-<header class="navbar user-select-none d-flex justify-content-between align-content-center sticky-top bg-dark flex-md-nowrap p-0 shadow" data-bs-theme="dark">
+<header class="navbar user-select-none d-flex justify-content-between align-content-center  bg-dark flex-md-nowrap p-0 shadow" data-bs-theme="dark">
     <a class="navbar-brand col-md-3 col-lg-2 click me-0 px-3 fs-6 text-white" href="#">Company:  @Model.Organization</a>
     <p class="fs-6 user-select-none me-3 my-2 text-white">User: @fullName</p>
 </header>
 
 <div class="container-xl">
 
-    <div class="d-flex">
-        <div class="container" style="position: relative; height:40vh; width:20vw">
-            <canvas id="progressChart"></canvas>
+    <div class="d-flex gap-5">
+        <div class="container my-5 d-flex align-content-center justify-content-center">
+            <h3 id="progressChart"></h3>
         </div>
-        <div class="container" style="position: relative; height:40vh; width:20vw">
-            <canvas id="PlanValidity"></canvas>
+        <div class="container my-5 d-flex align-content-center justify-content-center">
+            <h2 id="PlanValidity"></h2>
         </div>
     </div>
     <form class="mb-5" asp-controller="Dashboard" asp-action="UpdateCustomer">
@@ -29,36 +29,35 @@
             </div>
             <div class="col-5">
                 <label asp-for="@Model.First_Name" class="">First Name</label>
-                <input type="text" class="bg-white-50 admin-editable" name="First_Name" read value=@Model.First_Name readonly />
-
+                <input type="text" class="bg-white-50 admin-editable" name="First_Name" read value="@Model.First_Name" readonly />
             </div>
             <div class="col-5">
                 <label asp-for="@Model.Last_Name" class="">Last Name</label>
-                <input type="text" class="bg-white-50 admin-editable" name="Last_Name" read value=@Model.Last_Name readonly />
+                <input type="text" class="bg-white-50 admin-editable" name="Last_Name" read value="@Model.Last_Name" readonly />
 
             </div>
         </div>
         <div class="row">
             <div class="col-6">
                 <label asp-for="@Model.Email" class="">Email</label>
-                <input type="text" class="bg-white-50 admin-editable" name="Email" value=@Model.Email readonly />
+                <input type="text" class="bg-white-50 admin-editable" name="Email" value="@Model.Email" readonly />
 
             </div>
             <div class="col-6">
                 <label asp-for="@Model.City" class="">City</label>
-                <input type="text" class="bg-white-50 admin-editable" name="City" value=@Model.City readonly />
+                <input type="text" class="bg-white-50 admin-editable" name="City" value="@Model.City" readonly />
             </div>
         </div>
         <div class="row my-2">
             <div class="col-6">
                 <label asp-for="@Model.Address" class="">Address</label>
-                <textarea type="text" class="bg-white-50 admin-editable" name="Address" rows="1" readonly>@Model.Address</textarea>
+                <input type="text" class="bg-white-50 admin-editable" name="Address" rows="1" value="@Model.Address" readonly/>
 
             </div>
             <div class="col-6">
                 <label asp-for="@Model.Organization" class="">Organization</label>
-                <textarea type="text" class="bg-white-50 admin-editable" name="Organization" rows="1" readonly>@Model.Organization</textarea>
-            </div>
+                <input type="text" class="bg-white-50 admin-editable" name="Organization" rows="1" value=" @Model.Organization" readonly />
+            </div> 
         </div>
         <div class="row my-2">
             <div class="form-group col-6">
@@ -82,12 +81,10 @@
         <input type="text" class="bg-white-50 d-none" name="Current_Round" value=@Model.Current_Round readonly />
 
         <button class="btn btn-success Admin-only-Containers d-none" id="save-details" type="submit">Save Details</button>
-        <button class="btn btn-danger" id="security-dashboard-btn" asp-action="Index"
-                asp-controller="SecurityDashboard">
-            Security Dashboard
-        </button>
-        <button class="btn btn-warning Admin-only-Containers d-none" id="update-round">Update Round</button>
     </form>
+        <button class="btn btn-danger" id="security-dashboard-btn">Security Dashboard</button>
+        <button class="btn btn-warning Admin-only-Containers d-none" id="update-round">Update Round</button>
+
     <div class="container mb-5">
         <h2 class="my-4">Transactions</h2>
         <div class="d-flex align-items-center justify-content-center row">
@@ -419,7 +416,7 @@
 @section Scripts{
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="~/js/RoundChart.js"></script>
-    <script src="~/js/PlanValidity.js"></script>
+     <script src="~/js/PlanValidity.js"></script>
     <script>
         $(document).ready(function () {
             var currentPlan = @Model.PlanId;
@@ -428,6 +425,10 @@
 
             $("#showButton").click(function () {
                 $("#transactionTable").toggleClass("hidden-table");
+            });
+
+            $("#security-dashboard-btn").click(function () {
+                location.replace('/SecurityDashboard');
             });
 
 
@@ -464,11 +465,15 @@
                     url: '/Dashboard/UpdateRound',
                     data: { Id: Id },
                     success: function (data) {
+                        setTimeout(() => {
+                            location.reload();
+                        },2500)
+                    },
+                    Error: function (error) {
 
                     }
                 })
             });
-
 
 
             $.ajax({
@@ -502,44 +507,7 @@
                     console.log('Error fetching transactions.');
                 }
             });
-            /*$("#update-customer").submit(function (e) {
-                var d = $("#update-customer").serialize();
-                 alert("hello");
-                 e.preventDefault();
-                 $.ajax({
-                     type: 'POST',
-                     url: '/Dashboard/UpdateCustomer/',
-                     data: d,
-                     dataType: 'json',
-                     success: function (data) {
-
-                     },
-                     error: function () {
-                         console.log('Error fetching transactions.');
-                     }
-                 });
-             }
-             );*/
-
-            /*   $("#save-details").click(function () {
-                   alert("hello");
-                   var form = $("#update-customer").val;
-                   console.log(form);
-                   $.ajax({
-                       url: "/Dashboard/UpdateCustomer/",
-                       type: "POST",
-                       data: form,
-                       dataType: 'json',
-                       success: function () {
-                           alert("Success");
-                       },
-                       error: function () {
-                           alert("Error");
-                       }
-                   });
-               }); */
-
-
+           
             function formatLongDate(date) {
                 const options = {
                     year: 'numeric',

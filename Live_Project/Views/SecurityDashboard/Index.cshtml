@@ -27,7 +27,7 @@
                     <div class="badge"> <span>1 days ago</span></div>
                 </div>
                 <div class="mt-5">
-                    <h3 class="heading d-flex justify-content-between mx-4"><span>Domain</span> <span  class="fw-bold h2" style="color:red">34</span></h3>
+                    <h3 class="heading d-flex justify-content-between mx-4"><span>Domain</span> <span id="domain-count" class="fw-bold h2" style="color:red"></span></h3>
                     <div class="mt-5">
                         <div class="progress">
                             <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
@@ -67,7 +67,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-4 " id="Vulnerability-card">
             <div class="card p-3 mb-2 domain-card">
                 <div class="d-flex justify-content-between">
                     <div class="d-flex flex-row align-items-center">
@@ -267,6 +267,10 @@
                 window.location.replace("/SecurityDashboard/ShowCustomerDomains/" + id);
             })
 
+            $('#Vulnerability-card').click(function () {
+                window.location.replace("/SecurityDashboard/Vulnerabilities/" + id);
+            })
+
             $(".domain-card").each(function (index) {
                 var animation = "animate__fadeIn"; 
                 $(this).addClass("animate__animated " + animation).css("animation-delay", index * 0.2 + "s");
@@ -279,9 +283,24 @@
                  $("#severityChart").addClass("animate__animated animate__fadeInRight");
             });
 
-          
-
+            $.ajax({
+                url: '/Dashboard/DomainCount',
+                type: 'GET',
+                data: { id: id },
+                success: function (response) {
+                    if (response.success) {
+                        $('#domain-count').text(response.count);
+ 
+                    } else {
+                        console.log("Domain not found");
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.error("Error: " + jqXHR.responseText);
+                }
+            });
          });
+
         function fetchData() {
             return new Promise(function (resolve, reject) {
                 $.ajax({
@@ -299,7 +318,12 @@
                 medium = data[1];
                 high = data[2];
                 total_threats = low + medium + high;
-                const threatLevel = total_threats !== 0 ? (high / total_threats) * 100 : 0;
+               
+               // Threat Level Scoring Algorithm
+                const threatLevel = total_threats !== 0
+                    ? ((high * 3 + medium * 2 + low) / (total_threats * 6)) * 100
+                    : 0;
+                
                 const threatInfoElement = $('#threat-info');
                 if (threatLevel > 0) {
                     if (threatLevel > 70) {

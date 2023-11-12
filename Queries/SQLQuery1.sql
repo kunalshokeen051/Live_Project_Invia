@@ -4,12 +4,14 @@ USE Live_ProjectDb;
 
 -- Plans table
 CREATE TABLE Plans (
-  Id INT PRIMARY KEY IDENTITY (1, 1)
+  Id INT PRIMARY KEY
  ,Plan_Name NVARCHAR(255) NOT NULL
  ,Plan_Validity INT NOT NULL
  ,Plan_Amount DECIMAL(10, 2) NOT NULL
  ,Max_Rounds INT NOT NULL
 );
+
+
 
 -- Customer Table
 CREATE TABLE Customers (
@@ -108,22 +110,17 @@ CREATE TABLE [dbo].[Vulnerabilities](
 	[IpAddress] [varchar](50) NULL
  )
 
-
--- Procedure for signin 
-CREATE PROCEDURE dbo.CheckUser @Username NVARCHAR(255),
-@Password NVARCHAR(255)
-AS
-BEGIN
-  DECLARE @UserId INT;
-  SELECT
-    *
-  FROM Users
-  WHERE Username = @Username
+ -- Procedure for signin 
+CREATE PROCEDURE dbo.CheckUser @Username NVARCHAR(255), 
+@Password NVARCHAR(255) AS BEGIN DECLARE @UserId INT;
+SELECT 
+  * 
+FROM 
+  Users 
+WHERE 
+  Username = @Username 
   AND Password = @Password;
 END;
-
-  EXEC dbo.CheckUser 'kunalshokeen99'
-                    ,'admin12'
 
   -- Procedure create new customer
   CREATE OR ALTER PROCEDURE sp_Create_Customer @Email NVARCHAR(255),
@@ -196,7 +193,6 @@ END;
         UPDATE Transactions
         SET IsLatest = 0
         WHERE CustomerId = @CustomerId;
-
 
         INSERT INTO Transactions (Transaction_Id, Plan_Start, Plan_End, Current_Round, IsLatest, CustomerId, PlanId)
           VALUES (@Transaction_Id, @Plan_Start, @Plan_End, @Current_Round, @IsLatest, @CustomerId, @PlanId);
@@ -360,7 +356,8 @@ END;
 
 
               -- sp_CustomerPlanDetails stored procedure
-              CREATE OR ALTER PROCEDURE sp_CustomerPlanDetails @customerId INT
+              CREATE OR ALTER PROCEDURE sp_CustomerPlanDetails 
+			  @customerId INT
               AS
               BEGIN
                 SELECT
@@ -498,22 +495,23 @@ BEGIN
         Id = @Customer_Id;
 END
 
-                      -- STORED PROCEDUR EXECUTION
-                      EXEC sp_GetAllCustomerData
-                      EXEC sp_Create_Customer 'kunalshokeen051@gmail.com'
-                                             ,'kunal'
-                                             ,'shokeen'
-                                             ,'Gurgoan'
-                                             ,'India'
-                                             ,'jharsa gurgaon'
-                                             ,3
-                                             ,1234556
-                                             ,3
-                                             ,'Tower Research'
+-- STORED PROCEDUR EXECUTION
+ EXEC sp_GetAllCustomerData
+EXEC sp_Create_Customer 'kunalshokeen051@gmail.com',
+	'kunal',
+	'shokeen',
+	'Gurgoan',
+	'India',
+	'jharsa gurgaon',
+	3,
+	1234556,
+	3,
+	'Tower Research'
+
                       EXEC sp_AddEnquiry 2
                                         ,1
                       EXEC sp_CustomerTransactions 3012
-                      EXEC sp_CustomerPlanDetails 3012
+                      EXEC sp_CustomerPlanDetails 4
                       EXEC Sp_Create_Transaction 324324
                                                 ,'2023-10-28 18:17:08.350'
                                                 ,'2024-04-28 18:17:08.350'
@@ -560,6 +558,7 @@ END
 					  *
 					  from [Vulnerabilities]
 
+
 -- --------------------------------------------------------------------------------------------------------------------------------		
 
 INSERT INTO [dbo].[Domains] (Id, [Name], [Title], [RegDate], [ExpDate], [Registrar], [Size], [WebServer], [Country], [OpenPort], [CriticalPort], [IpAddress], [Customer_Id], [Round])
@@ -585,7 +584,7 @@ INSERT INTO Vulnerabilities
  INNER JOIN Transactions t on t.PlanId = c.Current_Plan
  inner join Plans p on p.Id = t.PlanId
  inner join Domains d on d.Customer_Id = c.Id
- where c.Id = 4and t.IsLatest = 1 order by d.Round desc
+ where c.Id = 31 and t.IsLatest = 1 order by d.Round desc
 
 
  -- To select all sub-domains of that particular customer
@@ -603,10 +602,34 @@ INSERT INTO Vulnerabilities
 
 
   -- to get all Vulnerabilities in domain of a customer
-   select c.Id, d.Name, v.IpAddress,v.SeverityRank as 'Threat Level',v.Remidiation,v.[Path] as location from Customers c
-  join Domains d on d.Customer_Id = c.Id
-  join Vulnerabilities v on v.DomainId = d.Id
-  where c.Id = 4
+SELECT
+    v.Id AS VulnerabilityId,
+    v.Name AS VulnerabilityName,
+    v.Description AS VulnerabilityDescription,
+    v.Path AS VulnerabilityPath,
+    v.SeverityRank AS SeverityRanking,
+    v.Remidiation AS RemediationInfo,
+    d.Id AS DomainId,
+    d.Name AS DomainName,
+    d.Title AS DomainTitle,
+    d.Registrar AS DomainRegistrar,
+    d.WebServer AS DomainWebServer,
+    d.Country AS DomainCountry,
+    d.OpenPort AS DomainOpenPort,
+    d.CriticalPort AS DomainCriticalPort,
+    d.IpAddress AS DomainIpAddress,
+    c.Id AS CustomerId,
+    c.First_Name AS CustomerName
+FROM
+    Domains d
+JOIN
+    Customers c ON d.Customer_Id = c.Id
+JOIN
+    Vulnerabilities v ON v.DomainId = d.Id
+WHERE
+    c.Id = 32
+ORDER BY
+    v.SeverityRank DESC
 
 
   CREATE or ALTER PROC RandNum
@@ -674,8 +697,7 @@ CREATE OR ALTER PROCEDURE GetVulnerabilityCounts
   @High_threat int output
 AS
 BEGIN
- 
- select @Low_threat = count(v.SeverityRank) from Customers c
+ select @Low_threat =  count(v.SeverityRank) from Customers c
                   join Domains d on d.Customer_Id = c.Id 
                   join Vulnerabilities v on v.DomainId = d.Id
                   where v.SeverityRank <= 4 and c.Id = @customer_Id
@@ -692,14 +714,15 @@ BEGIN
                   join Vulnerabilities v on v.DomainId = d.Id
                   where v.SeverityRank <= 10 and v.SeverityRank > 6 and c.Id = @customer_Id
 END
+
 Declare @low int
 Declare @medium int
 Declare @high int
-exec GetVulnerabilityCounts 4,@low OUTPUT,@medium OUTPUT,@high OUTPUT
+exec GetVulnerabilityCounts 38,@low OUTPUT,@medium OUTPUT,@high OUTPUT
 select @low as 'Low Severity',@medium  as 'Medium Severity',@high  as 'High Severity'
 
 
--- stored procedure for ading domain
+-- stored procedure for adding domain
 create or alter procedure sp_Add_Domain
 @Id int,
 @Title varchar(1000),
@@ -721,6 +744,5 @@ SET @Round = (SELECT Current_Round FROM Transactions WHERE CustomerId = @Id AND 
  values(NEWID(),@Name,@Title,@RegDate,@ExpDate,@Registrar,@Size,@WebServer,@Country,@OpenPort,@CriticalPort,@IpAddress,@Id,@Round)
 end
 
-exec sp_Add_Domain 7,'Test site 4','test site','789.54.6.7','7897.65.56','87.567.77','Nginx'
-select * FROM Domains
-WHERE Customer_Id = 7
+-- to get domain count
+select COUNT(*) from Domains where Customer_Id = 27

@@ -42,21 +42,31 @@ namespace Live_Project.Controllers
                 return StatusCode(500, "An Error Occured:" + e.Message);
             }
         }
-        public IActionResult ShowCustomerSubDomains(int id)
+
+        public IActionResult Vulnerabilities(int id)
         {
             try
             {
-                var Result = _unitOfWork.AdminRepository.GetAllSubDomains(id);
-                _unitOfWork.SaveChanges();
+                if(id == Convert.ToInt32(HttpContext.Session.GetString("CurrentUser")) || HttpContext.Session.GetString("UserType") == "Admin")
+                {
+                var vulnerabilities = _unitOfWork.AdminRepository.GetVulneribilities(id);
 
-                return View(Result);
+                if (vulnerabilities == null || !vulnerabilities.Any())
+                {
+                    return NotFound(); 
+                }
+                   return View(vulnerabilities);
+                }
+
+                else
+                {
+                    return BadRequest(); //400 status code
+                }
             }
-
-            catch (Exception e)
+            catch (Exception ex)
             {
-                return StatusCode(500, "An Error Occured:" + e.Message);
+                return StatusCode(500, $"Internal Server Error: {ex.Message}");
             }
         }
-
     }
 }

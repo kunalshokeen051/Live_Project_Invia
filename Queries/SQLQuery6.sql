@@ -1,7 +1,8 @@
-INSERT INTO Plans (Plan_Name, Plan_Validity, Plan_Amount, Max_Rounds)
-VALUES ('Basic Plan', 30, 19.99, 1),
-       ('Standard Plan', 90, 49.99, 3),
-       ('Premium Plan', 365, 99.99, 6);
+INSERT INTO Plans (Id,Plan_Name, Plan_Validity, Plan_Amount, Max_Rounds)
+VALUES (1,'Basic', 30, 19.99, 1),
+       (2,'Standard', 90, 49.99, 3),
+       (3,'Premium', 365, 99.99, 6);
+
 
 
 INSERT INTO Customers (Email, First_Name, Last_Name, City, Country, Address, Current_Plan, TransactionId, PlanId)
@@ -20,6 +21,7 @@ VALUES ('user1', 'password1', 1, 0, 0, 1, 1, 1),
        ('kunalshokeen99', 'admin123', 0, 1, 0, NULL, NULL, 1),
        ('user2', 'password2', 1, 0, 0, 2, 2, 1),
        ('employee1', 'empypass', 0, 0, 1, NULL, NULL, 1);
+
 
 	   -- Inserting entries into the Enquires table
 INSERT INTO Enquires (Enquiry_Date, isResolved, Message, CustomerId, PlanId)

@@ -12,23 +12,32 @@ function fetchData() {
 }
 
 
-fetchData()
-    .then(function (data) {
-        var completedPercentage = Math.ceil((data.Current_Round / data.Max_Rounds) * 100);
-        var remainingPercentage = 100 - completedPercentage;
-        var ctx = document.getElementById('progressChart').getContext('2d');
-        var chart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Completed Round %', 'Rounds Left %'],
-                datasets: [{
-                    data: [completedPercentage, remainingPercentage],
-                    backgroundColor: ['#6A0DAD', '#9370DB'],
-                }],
-                hoverOffset: 4
-            }
+function updateProgressChart(data) {
+    if (data) {
+      /*  var completedPercentage = Math.ceil((data.Current_Round / data.Max_Rounds) * 100);
+        var remainingPercentage = 100 - completedPercentage;*/
+
+        var $myContainer = $('#progressChart');
+
+        $myContainer.html(`Round:  <span  class="tomato-red"> ${data.Current_Round}</span>/${data.Max_Rounds}`);
+
+        $myContainer.css({
+            'font-size': '2rem',
+            'font-weight':'bolder',
         });
-    })
+
+        $myContainer.find('.tomato-red').css({
+            'color': 'tomato',
+        });
+
+        $myContainer.fadeIn(1000); 
+    } else {
+        console.error("Data is undefined or null");
+    }
+}
+
+fetchData()
+    .then(updateProgressChart)
     .catch(function (error) {
-        console.log(error);
+        console.error("Error fetching data:", error);
     });
