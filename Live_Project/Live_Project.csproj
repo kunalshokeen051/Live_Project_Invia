@@ -4,6 +4,8 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <DockerfileContext>.</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,8 +15,6 @@
 
   <ItemGroup>
     <None Include="wwwroot\assets\css\main.css" />
-    <None Include="wwwroot\assets\img\apple-touch-icon.png" />
-    <None Include="wwwroot\assets\img\favicon.png" />
     <None Include="wwwroot\assets\img\gallery\gallery-10.jpg" />
     <None Include="wwwroot\assets\img\gallery\gallery-11.jpg" />
     <None Include="wwwroot\assets\img\gallery\gallery-12.jpg" />

@@ -4,7 +4,6 @@ VALUES (1,'Basic', 90, 19.99, 1),
        (3,'Premium', 365, 99.99, 6);
 
 
-
 INSERT INTO Customers (Email, First_Name, Last_Name, City, Country, Address, Current_Plan, TransactionId, PlanId)
 VALUES ('customer1@email.com', 'John', 'Smith', 'New York', 'USA', '123 Main St, Apt 101', 1, 1, 1),
        ('customer2@email.com', 'Alice', 'Johnson', 'Los Angeles', 'USA', '456 Elm St, Suite 201', 2, 2, 2),
@@ -28,4 +27,5 @@ VALUES ('2023-10-20 10:00:00', 0, 'I have a question about the Basic Plan', 1, 1
        ('2023-10-22 12:15:00', 1, 'I am satisfied with the Standard Plan', 3, 2),
 	   ('2023-10-20 10:00:00', 1, 'I need information about your Standard Plan', 2, 2);
 
-	
+
+

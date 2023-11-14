@@ -132,7 +132,7 @@ namespace LP.Repository.Repositories
             {
                 var rowsAffected =_dbConnection.Execute("Sp_RoundUpdate", new { Customer_Id = Id },
                     commandType: CommandType.StoredProcedure, transaction: _transaction);
-                if(rowsAffected == 1)
+                if(rowsAffected >= 1)
                 {
                 return true;
                 }
