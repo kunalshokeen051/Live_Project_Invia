@@ -5,6 +5,7 @@
     string fullName = (Model.First_Name + " " + Model.Last_Name).ToUpper();
 }
 
+
 <header class="navbar user-select-none d-flex justify-content-between align-content-center  bg-dark flex-md-nowrap p-0 shadow" data-bs-theme="dark">
     <a class="navbar-brand col-md-3 col-lg-2 click me-0 px-3 fs-6 text-white" href="#">Company:  @Model.Organization</a>
     <p class="fs-6 user-select-none me-3 my-2 text-white">User: @fullName</p>
@@ -20,6 +21,7 @@
             <h2 id="PlanValidity"></h2>
         </div>
     </div>
+
     <form class="mb-5" asp-controller="Dashboard" asp-action="UpdateCustomer">
         <div class="row mt-3 mb-2">
             <div class="col-2">
@@ -62,7 +64,7 @@
         <div class="row my-2">
             <div class="form-group col-6">
                 <label asp-for="Plan_Name"></label>
-                <select asp-for="Plan_Name" id="CurrentPlan" asp-items="Html.GetEnumSelectList<LP.Models.PlanType>()" class="form-control">
+                <select asp-for="Plan_Name" id="CurrentPlan" asp-items="Html.GetEnumSelectList<LP.Models.PlanType>()" class="admin-editable form-control" disabled>
                     <option value="">@Model.Plan_Name</option>
                 </select>
                 <span asp-validation-for="Plan_Name" class="text-danger"></span>
@@ -105,6 +107,11 @@
         </table>
     </div>
 </div>
+
+<div id="partialContainer" class="Customer-only-Containers d-none">
+    <partial name="_MessageAdminModel">
+</div>
+
 
 <div class="d-none Customer-only-Containers">
     <div class="pricing-header p-5 pb-md-4 mx-auto bg-dark text-center my-5" style="color:mediumslateblue">
@@ -456,6 +463,7 @@
                 $('.Admin-only-Containers').removeClass("d-none");
                 $(".admin-editable").each(function () {
                     $(this).removeAttr("readonly");
+                    $(this).removeAttr("disabled");
                 })
             }
 

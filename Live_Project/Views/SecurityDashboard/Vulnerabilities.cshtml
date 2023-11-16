@@ -11,16 +11,16 @@
 
 
 <div class="table-responsive">
-    <table id="vulnerabilitiesTable" class="table table-striped table-hover table-bordered">
+    <table id="vulnerabilitiesTable" class="table table-responsive-md table-striped table-hover table-bordered">
         <thead>
             <tr>
-                <th>Vulnerability Name</th>
-                <th>Domain Name</th>
-                <th>Vulnerability Description</th>
-                <th>Vulnerability Path</th>
-                <th>Severity Ranking</th>
-                <th>Remediation Info</th>
-                <th>Domain IpAddress</th>
+                <th class="table-danger">Vulnerability Name</th>
+                <th class="table-danger">Domain Name</th>
+                <th class="table-danger">Vulnerability Description</th>
+                <th class="table-danger">Vulnerability Path</th>
+                <th class="table-danger">Severity Ranking</th>
+                <th class="table-danger">Remediation Info</th>
+                <th class="table-danger">Domain IpAddress</th>
             </tr>
         </thead>
         <tbody>
@@ -44,11 +44,40 @@
     {
     <script>
         $(document).ready(function () {
-            $('.severity-cell').each(function () {
-                var severity = $(this).data('severity');
-                var color = getSeverityColor(severity);
-                $(this).css('background-color', color);
+            var vulnerabilitiesTable = $('#vulnerabilitiesTable').DataTable({
+                "paging": true,
+                "ordering": true,
+                "searching": true,
+                "info": true,
+                "responsive": true,
+                "columnDefs": [
+                    { "orderable": false, "targets": [5] },
+                    { "orderable": false, "targets": [6] },
+                    { "orderable": false, "targets": [2] }
+                ],
+                "language": {
+                    "emptyTable": "No data available",
+                    "infoEmpty": "No records found",
+                    "zeroRecords": "No matching records found"
+                }
             });
+
+
+            applySeverityColor();
+
+            vulnerabilitiesTable.on('draw.dt', function () {
+                applySeverityColor();
+            });
+
+            function applySeverityColor() {
+                $('.severity-cell').each(function () {
+                    var severity = $(this).data('severity');
+                    var color = getSeverityColor(severity);
+                    $(this).css('background-color', color);
+                });
+            }
+
+
 
             function getSeverityColor(severityRanking) {
                 if (severityRanking <= 4) {

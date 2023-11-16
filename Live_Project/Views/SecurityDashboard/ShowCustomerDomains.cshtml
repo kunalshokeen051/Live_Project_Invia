@@ -1,20 +1,29 @@
 ﻿@model List<LP.Models.ViewModels.DomainVM> 
 
-<div class="container-md">
-    <button class="btn btn-danger my-4 Admin-only-Containers d-none" id="addDomainButton">Add Domain</button>
+@{
+    ViewData["Title"] = "Domains";
+}
+
+
+<div class="container-md min-vh-100">
+    <button class="btn btn-danger mt-4 Admin-only-Containers d-none" id="addDomainButton">Add Domain</button>
+    <hr />
     @foreach (var roundGroup in Model.GroupBy(vm => vm.Round).OrderByDescending(g => g.Key))
     {
-        <h2>Round @roundGroup.Key</h2>
-        <table class="table table-bordered table-responsive-md">
+        <h2 class="round-header">
+            <span class="mx-2 text-uppercase fw-semibold">Round @roundGroup.Key</span>
+            <span class="toggle-table btn btn-outline-danger">Show</span>
+        </h2>
+        <table class="table my-4 table-bordered table-responsive-md round-table">
             <thead>
                 <tr>
-                    <th class="table-danger">Id</th>
+                    <th class="table-danger">Customer Id</th>
                     <th class="table-danger">Title</th>
                     <th class="table-danger">Name</th>
-                    <th class="table-danger">IpAddress</th>
-                    <th class="table-danger">CriticalPort</th>
-                    <th class="table-danger">OpenPort</th>
-                    <th class="table-danger">WebServer</th>
+                    <th class="table-danger">IP Address</th>
+                    <th class="table-danger">Critical Port</th>
+                    <th class="table-danger">Open Port</th>
+                    <th class="table-danger">Web Server</th>
                     <th class="table-danger Admin-only-Containers d-none ">Action</th>
                 </tr>
             </thead>
@@ -29,7 +38,9 @@
                         <td>@(item.CriticalPort ?? "N/A")</td>
                         <td>@(item.OpenPort ?? "N/A")</td>
                         <td class="web-server">@(item.WebServer ?? "N/A")</td>
-                        <td class="Admin-only-Containers d-none"><button data-ip="@item.IpAddress" class="btn btn-danger" id="delete-button">X</button></td>
+                        <td class="Admin-only-Containers d-none">
+                            <button data-ip="@item.IpAddress" class="btn btn-danger delete-button"> X </button>
+                        </td>
                     </tr>
                 }
             </tbody>
@@ -71,7 +82,7 @@
                         </div>
                     </div>  
                     <div class="form-group">
-                        <label for="IP Address">IP Address</label>
+                        <label for="IpAddress">IP Address</label>
                         <input type="text" class="form-control" id="IpAddress" name="IpAddress" required autocomplete="off">
                         <div class="invalid-feedback">
                             This is required.
@@ -113,7 +124,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn close btn-secondary" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary" id="saveDomain">Save</button>
             </div>
         </div>
@@ -127,43 +138,56 @@
     <script>
         $(document).ready(function(){
             var customerId = @Model.Select(vm => vm.Id).First();
+            $('.round-table tbody').hide();
 
-             if ('@Context.Request.HttpContext.Session.GetString("UserType")' === 'Customer') {
-                $('.Customer-only-Containers').removeClass("d-none");
-            } else {
-                $('.Admin-only-Containers').removeClass("d-none");
-            }
+            $(".delete-button").on('click',function () {
+                var ip = $(this).data('ip');
 
-            $('.web-server:contains("N/A")').css('color', 'red');
-
-            $("#addDomainButton").click(function () {
-                $("#domainModal").modal("show");
-            });
-            
-            $("#delete-button").click(function () {
-                var ip = $(this).attr('data-ip');
-                alert(ip);
-                var data  ={
-                customerId,
-                 ip
+                var data = {
+                    customerId,
+                    ip
                 }
+
                 $.ajax({
                     type: 'Post',
                     url: '/Dashboard/DeleteDomain',
-                    data:data,
+                    data: data,
                     success: function (response) {
-                      if(response.status == true){
-                         location.reload();
-                      }
-                      else{
-                          console.log(response.message);
-                      }
+                        if (response != null) {
+                            location.reload();
+                        }
+                        else {
+                            console.log(response.message);
+                        }
                     },
                     error: function (error) {
                         console.error('Error disabling user: ' + JSON.stringify(error));
                     }
                 });
-            }); 
+            });
+
+
+            if ('@Context.Request.HttpContext.Session.GetString("UserType")' === 'Customer') {
+              $('.Customer-only-Containers').removeClass("d-none");
+            } 
+            else 
+            {
+                $('.Admin-only-Containers').removeClass("d-none");
+            }
+
+            $('.web-server:contains("N/A")').css('color', 'red');
+
+
+            $("#addDomainButton").click(function () {
+                $("#domainModal").modal("show");
+            });
+
+
+            $('.round-header').click(function () {
+                $(this).next('.round-table').find('tbody').toggle('slow');
+            });
+            
+           
             
             $(".close").click(function () {
                 $("#domainModal").modal("hide");
@@ -184,13 +208,21 @@
                     url: '/Dashboard/AddDomain',
                     data: domainData,
                     success: function (response) {
+                        if (response != null) {
                         alert(response.message);
+                            $("#domainModal").modal("hide");
+                        }
+                       
                     },
                     error: function (error) {
                         console.error('Error disabling user: ' + JSON.stringify(error));
                     }
                 });
             });
+
+
+
+            
         });
     </script>
 }

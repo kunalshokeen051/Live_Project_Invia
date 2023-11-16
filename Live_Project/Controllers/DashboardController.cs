@@ -53,8 +53,9 @@ namespace Live_Project.Controllers
                     return View();
                 }
             }
-            catch(Exception e)
+            catch(Exception ex)
             {
+                Console.WriteLine("Error:" + ex.Message);
                 return StatusCode(500, "An Error Occured");
             }
         }
@@ -118,7 +119,7 @@ namespace Live_Project.Controllers
             {
                 return StatusCode(500, "An error occured" + ex.Message);
             }
-        }
+        }   
 
         public IActionResult DisableUser(int id)
         {
@@ -174,7 +175,12 @@ namespace Live_Project.Controllers
             {
                 var status = _unitOfWork.AdminRepository.AddDomain(domain);
 
+                if (status)
+                {
                 return Json(new { success = true, message = "message received"});
+                }
+
+                return Json(new { success = false});
             }
             catch (Exception ex)
             {

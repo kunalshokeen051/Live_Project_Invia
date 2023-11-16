@@ -38,28 +38,39 @@ DECLARE @counter INT = 1;
 
 WHILE @counter <= 200
 BEGIN
-    DECLARE @Id INT = ABS(CHECKSUM(NEWID())) % 20 + 27; -- Random value between 27 and 46
-    DECLARE @Title VARCHAR(1000) = 'testsite' + CAST(@counter AS VARCHAR(5));
-    DECLARE @Name NVARCHAR(500) = 'testsite' + CAST(@counter AS NVARCHAR(5)) + '.com';
-    DECLARE @IpAddress VARCHAR(50) = '127.' + CAST(ABS(CHECKSUM(NEWID())) % 256 AS VARCHAR(3)) + '.' + CAST(ABS(CHECKSUM(NEWID())) % 256 AS VARCHAR(3)) + '.' + CAST(ABS(CHECKSUM(NEWID())) % 256 AS VARCHAR(3));
-    DECLARE @CriticalPort VARCHAR(MAX) = CAST(ABS(CHECKSUM(NEWID())) % 10000 AS VARCHAR(5)) + ',' + CAST(ABS(CHECKSUM(NEWID())) % 10000 AS VARCHAR(5)) + ',' + CAST(ABS(CHECKSUM(NEWID())) % 10000 AS VARCHAR(5));
-    DECLARE @OpenPort VARCHAR(MAX) = CAST(ABS(CHECKSUM(NEWID())) % 10000 AS VARCHAR(5)) + ',' + CAST(ABS(CHECKSUM(NEWID())) % 10000 AS VARCHAR(5)) + ',' + CAST(ABS(CHECKSUM(NEWID())) % 10000 AS VARCHAR(5));
-    DECLARE @WebServer VARCHAR(250) = CASE ABS(CHECKSUM(NEWID())) % 3
-                                        WHEN 0 THEN 'Nginx'
-                                        WHEN 1 THEN 'Apache'
-                                        WHEN 2 THEN 'IIS'
-                                     END;
+    DECLARE @CustomerId INT = ABS(CHECKSUM(NEWID())) % 20 + 27; -- Random value between 27 and 46
+    DECLARE @CurrentRound INT = (SELECT MAX(Round) FROM Domains WHERE Customer_Id = @CustomerId);
 
-    EXEC sp_Add_Domain
-        @Id,
-        @Title,
-        @Name,
-        @IpAddress,
-        @CriticalPort,
-        @OpenPort,
-        @WebServer;
+    -- Check if the customer has no domains in the current round
+    IF @CurrentRound IS NULL OR @CurrentRound < (SELECT MAX_Rounds FROM Plans WHERE Id IN (SELECT PlanId FROM Transactions WHERE CustomerId = @CustomerId and Transactions.IsLatest = 1))
+    BEGIN
+        DECLARE @Id INT = ABS(CHECKSUM(NEWID())) % 20 + 27; -- Random value between 27 and 46
+        DECLARE @Title VARCHAR(1000) = 'testsite' + CAST(@counter AS VARCHAR(5));
+        DECLARE @Name NVARCHAR(500) = 'testsite' + CAST(@counter AS NVARCHAR(5)) + '.com';
+        DECLARE @IpAddress VARCHAR(50) = '127.' + CAST(ABS(CHECKSUM(NEWID())) % 256 AS VARCHAR(3)) + '.' + CAST(ABS(CHECKSUM(NEWID())) % 256 AS VARCHAR(3)) + '.' + CAST(ABS(CHECKSUM(NEWID())) % 256 AS VARCHAR(3));
+        DECLARE @CriticalPort VARCHAR(MAX) = CAST(ABS(CHECKSUM(NEWID())) % 10000 AS VARCHAR(5)) + ',' + CAST(ABS(CHECKSUM(NEWID())) % 10000 AS VARCHAR(5)) + ',' + CAST(ABS(CHECKSUM(NEWID())) % 10000 AS VARCHAR(5));
+        DECLARE @OpenPort VARCHAR(MAX) = CAST(ABS(CHECKSUM(NEWID())) % 10000 AS VARCHAR(5)) + ',' + CAST(ABS(CHECKSUM(NEWID())) % 10000 AS VARCHAR(5)) + ',' + CAST(ABS(CHECKSUM(NEWID())) % 10000 AS VARCHAR(5));
+        DECLARE @WebServer VARCHAR(250) = CASE ABS(CHECKSUM(NEWID())) % 3
+                                            WHEN 0 THEN 'Nginx'
+                                            WHEN 1 THEN 'Apache'
+                                            WHEN 2 THEN 'IIS'
+                                         END;
 
-    SET @counter = @counter + 1;
+        EXEC sp_Add_Domain
+            @Id,
+            @Title,
+            @Name,
+            @IpAddress,
+            @CriticalPort,
+            @OpenPort,
+            @WebServer;
+
+        SET @counter = @counter + 1;
+    END
+    ELSE
+    BEGIN
+        SET @counter = @counter + 1;
+    END
 END;
 
 -- ************************************************** Inserting vulneribilities ****************************************************
@@ -82,4 +93,6 @@ BEGIN
 
     SET @Counter = @Counter + 1;
 END;
+
+
 

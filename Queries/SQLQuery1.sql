@@ -11,6 +11,8 @@ CREATE TABLE plans
      max_rounds    INT NOT NULL
   ); 
 
+  select * from Users
+
 -- Customer Table
 CREATE TABLE customers
   (
@@ -82,7 +84,8 @@ CREATE TABLE [dbo].[domains]
      [criticalport] [VARCHAR](max) NULL,
      [ipaddress]    [VARCHAR](50) NULL,
      [customer_id]  [INT] NOT NULL,
-     [round]        [INT] NOT NULL
+     [round]        [INT] NOT NULL,
+	 [transaction_Id][] null
   )
 
 --Sub-Domain table
@@ -515,11 +518,11 @@ AS
 
 
  -- To select all the Domains of particular customer
- select c.Id,d.Title,d.Id,d.Name, d.IpAddress,d.CriticalPort,d.OpenPort,d.WebServer,d.Round,p.Max_Rounds,t.Current_Round from Customers c
+ select c.Id,p.Plan_Name,d.Title,d.Id,d.Name, d.IpAddress,d.CriticalPort,d.OpenPort,d.WebServer,d.Round,p.Max_Rounds,t.Current_Round from Customers c
  INNER JOIN Transactions t on t.PlanId = c.Current_Plan
  inner join Plans p on p.Id = t.PlanId
  inner join Domains d on d.Customer_Id = c.Id
- where c.Id = 31 and t.IsLatest = 1 order by d.Round desc
+ where c.Id = 35 and t.IsLatest = 1 order by d.Round desc
 
 
  -- To select all sub-domains of that particular customer
@@ -722,7 +725,7 @@ select @low as 'Low Severity',@medium  as 'Medium Severity',@high  as 'High Seve
 
 
 -- stored procedure for adding domain
-create or alter procedure sp_Add_Domain
+create or alter procedure Add_New_Domain
 @Id int,
 @Title varchar(1000),
 @Name nvarchar (500),
@@ -732,16 +735,19 @@ create or alter procedure sp_Add_Domain
 @WebServer varchar(250)
 as
 begin
-DECLARE @Round int,@RegDate Datetime,@ExpDate Datetime,@Registrar varchar,@Size varchar,@Country varchar
+DECLARE @Round int,@RegDate Datetime,@ExpDate Datetime,@Registrar nvarchar(250),@Size nvarchar(50),@Country nvarchar(50)
 SET @RegDate = GETDATE()
 SET @ExpDate = DATEADD(YEAR, 1, @RegDate)
 SET @Registrar = 'GoDaddy'
-SET @Size = 'abc'
+SET @Size = 'large'
 SET @Country = 'India'
 SET @Round = (SELECT Current_Round FROM Transactions WHERE CustomerId = @Id AND IsLatest = 1)
  Insert into Domains(Id,Name,Title,RegDate,ExpDate,Registrar,Size,WebServer,Country,OpenPort,CriticalPort,IpAddress,Customer_Id,[Round])
  values(NEWID(),@Name,@Title,@RegDate,@ExpDate,@Registrar,@Size,@WebServer,@Country,@OpenPort,@CriticalPort,@IpAddress,@Id,@Round)
 end
+
+exec sp_Add_New_Domain 35,'mydomain','mydomain_4_8','232.2324.12','4343,34343','3434,3434','ingnx'
+
 
 -- STORED PROCEDUR EXECUTION
  EXEC sp_GetAllCustomerData
@@ -809,7 +815,53 @@ EXEC sp_Create_Customer 'kunalshokeen051@gmail.com',
 
 -- --------------------------------------------------------------------------------------------------------------------------------		
 
-
-
 -- to get domain count
 select COUNT(*) from Domains where Customer_Id = 27
+
+
+-- Schedule task for plan validity checking
+EXEC msdb.dbo.sp_add_schedule
+    @schedule_name = N'DailySchedule',
+    @enabled = 1,
+    @freq_type = 4,  
+    @freq_interval = 1;  
+
+EXEC msdb.dbo.sp_attach_schedule
+    @job_name = N'CheckPlanEndJob',
+    @schedule_name = N'DailySchedule';
+
+EXEC msdb.dbo.sp_add_job
+    @job_name = N'CheckPlanEndJob',
+    @enabled = 1;
+
+EXEC msdb.dbo.sp_add_jobstep
+    @job_name = N'CheckPlanEndJob',
+    @step_name = N'CheckPlanEndStep',
+    @subsystem = N'TSQL',
+    @command = 
+    N'
+    DECLARE @Today DATE = GETDATE();
+
+    UPDATE Users
+    SET IsActive = 0
+    FROM UserTable u
+    join Customers c on u.CustomerId = c.Id
+    JOIN Transactions t ON  T.CustomerId = C.Id
+	JOIN Plans P ON C.Current_Plan =  P.Id 
+	 WHERE p.plan_end < @Today AND T.IsLatest = 1;
+
+    -- Send email to customers whose plan is expiring today
+    EXEC msdb.dbo.sp_send_dbmail
+        @profile_name = ''sqlalerts'',
+        @recipients = (SELECT Email FROM CustomerTable c JOIN PlanTable p ON c.CustomerID = p.CustomerID WHERE p.plan_end = @Today),
+        @subject = ''Your plan is expiring today'',
+        @body = ''Please renew your plan.'';
+    ';
+
+EXEC msdb.dbo.sp_add_jobserver
+    @job_name = N'CheckPlanEndJob';
+
+-- For testing this Job
+EXEC msdb.dbo.sp_start_job N'CheckPlanEndJob';
+
+

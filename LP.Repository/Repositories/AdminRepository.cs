@@ -7,6 +7,8 @@ using System.Data;
 using LP.Models.ViewModels;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Xml.Linq;
+using System.Net;
 
 namespace LP.Repository.Repositories
 {
@@ -193,6 +195,7 @@ namespace LP.Repository.Repositories
 
             catch (Exception ex)
             {
+                Console.WriteLine("Error:" + ex.Message);
                 throw;
             }
         }
@@ -208,6 +211,7 @@ namespace LP.Repository.Repositories
             }
             catch(Exception ex)
             {
+                Console.WriteLine("Error:" + ex.Message);
                 throw;
             }
         }
@@ -217,7 +221,7 @@ namespace LP.Repository.Repositories
             try
             {
                 string sql = @"SELECT
-                                     c.Id,
+                                     c.Id ,
                                      d.Title,
                                      d.Id AS DomainId,
                                      d.Name,
@@ -230,7 +234,7 @@ namespace LP.Repository.Repositories
                                  FROM
                                      Customers c
                                  INNER JOIN
-                                     Transactions t ON t.CustomerId = c.Id
+                                     Transactions t ON c.id = t.CustomerId
                                  INNER JOIN
                                      Plans p ON p.Id = t.PlanId
                                  INNER JOIN
@@ -275,27 +279,30 @@ namespace LP.Repository.Repositories
 
             catch (Exception ex)
             {
+                Console.WriteLine("Error:" + ex.Message);
                 return false;
             }
         }
 
-        bool IAdminRepository.DeleteDomain(int id,string IpAddress)
+        bool IAdminRepository.DeleteDomain(int Customer_Id, string IpAddress)
         {
 
             try
             {
-                string sql = @"DELETE FROM Domains WHERE IpAddress = @IpAddress AND Customer_Id = @id";
-                var result = _dbConnection.QueryFirstOrDefault(sql, new { @IpAddress = IpAddress, @id = id},transaction:_transaction);
+                string sql = @"DELETE FROM Domains WHERE IpAddress = @IpAddress AND Customer_Id = @Customer_Id";
+                var result = _dbConnection.Execute(sql, new { IpAddress, Customer_Id },transaction:_transaction);
 
-                if(result  == null)
+                if(result == 0)
                 {
                     return false;
                 }
                 else
                 {
-                  return true;
+                 _transaction.Commit();
+                  return true; 
                 }
             }
+
 
             catch (Exception ex)
             {
@@ -306,7 +313,38 @@ namespace LP.Repository.Repositories
 
         bool IAdminRepository.AddDomain(Domain domain)
         {
-            throw new NotImplementedException();
+            try
+            {
+               var Result = _dbConnection.Execute("Add_New_Domain", new
+                {
+                   domain.Id,
+                    domain.Title,
+                    domain.Name,
+                    domain.IpAddress,
+                    domain.CriticalPort,
+                    domain.OpenPort,
+                    domain.WebServer,
+                }, commandType: CommandType.StoredProcedure, transaction: _transaction); 
+
+
+                if(Result != 0)
+                {
+                    _transaction.Commit();
+                    return true;
+                }
+                else
+                {
+                    throw new Exception("An Error occur while adding  new Domain");
+                }
+            }
+
+
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error:" + ex.Message);
+                throw;
+            }
+
         }
 
         IEnumerable<VulneribilitiesVM> IAdminRepository.GetVulneribilities(int Id)
