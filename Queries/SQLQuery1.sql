@@ -11,8 +11,6 @@ CREATE TABLE plans
      max_rounds    INT NOT NULL
   ); 
 
-  select * from Users
-
 -- Customer Table
 CREATE TABLE customers
   (
@@ -497,6 +495,7 @@ AS
             FROM   plans
             WHERE  id = @Current_Plan);
      SET @Plan_End = Dateadd(day,@Validity,@Plan_Start);
+
    	EXEC Sp_create_transaction
        @TransactionId,
        @Plan_Start,
@@ -630,6 +629,9 @@ AS
         @Customer_Id,
         @Current_Plan;
 
+    delete from Domains where Customer_Id = @Customer_Id;
+	DELETE FROM Vulnerabilities WHERE DomainId IN (SELECT d.Id FROM Domains d WHERE Customer_Id = @Customer_Id);
+    
     DECLARE @Subject NVARCHAR(255) = 'Plan Change Notification';
     DECLARE @Body NVARCHAR(MAX);
     DECLARE @MailProfile NVARCHAR(128) = 'SQLAlerts';

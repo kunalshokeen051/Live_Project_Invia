@@ -326,6 +326,9 @@
             <summary>
             Tell Dapper to use an explicit constructor, passing nulls or 0s for all parameters
             </summary>
+            <remarks>
+            Usage on methods is limited to the usage with Dapper.AOT (https://github.com/DapperLib/DapperAOT)
+            </remarks>
         </member>
         <member name="M:Dapper.Extensions.CastResult``2(System.Threading.Tasks.Task{``0})">
             <summary>
@@ -1139,36 +1142,6 @@
             <param name="cnn">The connection to execute on.</param>
             <param name="command">The command to execute.</param>
             <returns>The first cell selected as <typeparamref name="T"/>.</returns>
-        </member>
-        <member name="M:Dapper.SqlMapper.QueryUnbufferedAsync(System.Data.Common.DbConnection,System.String,System.Object,System.Data.Common.DbTransaction,System.Nullable{System.Int32},System.Nullable{System.Data.CommandType})">
-            <summary>
-            Execute a query asynchronously using <see cref="T:System.Collections.Generic.IAsyncEnumerable`1"/>.
-            </summary>
-            <param name="cnn">The connection to query on.</param>
-            <param name="sql">The SQL to execute for the query.</param>
-            <param name="param">The parameters to pass, if any.</param>
-            <param name="transaction">The transaction to use, if any.</param>
-            <param name="commandTimeout">The command timeout (in seconds).</param>
-            <param name="commandType">The type of command to execute.</param>
-            <returns>
-            A sequence of data of dynamic data
-            </returns>
-        </member>
-        <member name="M:Dapper.SqlMapper.QueryUnbufferedAsync``1(System.Data.Common.DbConnection,System.String,System.Object,System.Data.Common.DbTransaction,System.Nullable{System.Int32},System.Nullable{System.Data.CommandType})">
-            <summary>
-            Execute a query asynchronously using <see cref="T:System.Collections.Generic.IAsyncEnumerable`1"/>.
-            </summary>
-            <typeparam name="T">The type of results to return.</typeparam>
-            <param name="cnn">The connection to query on.</param>
-            <param name="sql">The SQL to execute for the query.</param>
-            <param name="param">The parameters to pass, if any.</param>
-            <param name="transaction">The transaction to use, if any.</param>
-            <param name="commandTimeout">The command timeout (in seconds).</param>
-            <param name="commandType">The type of command to execute.</param>
-            <returns>
-            A sequence of data of <typeparamref name="T"/>; if a basic type (int, string, etc) is queried then the data from the first column is assumed, otherwise an instance is
-            created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
-            </returns>
         </member>
         <member name="E:Dapper.SqlMapper.QueryCachePurged">
             <summary>
@@ -2105,22 +2078,6 @@
         <member name="M:Dapper.SqlMapper.GridReader.OnAfterGridAsync(System.Int32)">
             <summary>
             Marks the current grid as consumed, and moves to the next result
-            </summary>
-        </member>
-        <member name="M:Dapper.SqlMapper.GridReader.ReadUnbufferedAsync``1">
-            <summary>
-            Read the next grid of results.
-            </summary>
-            <typeparam name="T">The type to read.</typeparam>
-        </member>
-        <member name="M:Dapper.SqlMapper.GridReader.ReadUnbufferedAsync">
-            <summary>
-            Read the next grid of results.
-            </summary>
-        </member>
-        <member name="M:Dapper.SqlMapper.GridReader.DisposeAsync">
-            <summary>
-            Dispose the grid, closing and disposing both the underlying reader and command.
             </summary>
         </member>
         <member name="M:Dapper.SqlMapper.GridReader.#ctor(System.Data.IDbCommand,System.Data.Common.DbDataReader,Dapper.SqlMapper.Identity,System.Action{System.Object},System.Object,System.Boolean,System.Threading.CancellationToken)">

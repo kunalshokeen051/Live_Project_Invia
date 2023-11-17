@@ -6,15 +6,19 @@
 
 
 <div class="container-md min-vh-100">
+    <a class="btn btn-outline-danger border-none mt-4" asp-action="Index" asp-controller="SecurityDashboard">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door-fill" viewBox="0 0 16 16">
+            <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5Z" />
+        </svg>
+    </a>
     <button class="btn btn-danger mt-4 Admin-only-Containers d-none" id="addDomainButton">Add Domain</button>
     <hr />
     @foreach (var roundGroup in Model.GroupBy(vm => vm.Round).OrderByDescending(g => g.Key))
     {
         <h2 class="round-header">
             <span class="mx-2 text-uppercase fw-semibold">Round @roundGroup.Key</span>
-            <span class="toggle-table btn btn-outline-danger">Show</span>
         </h2>
-        <table class="table my-4 table-bordered table-responsive-md round-table">
+        <table id="domainTable" class="table my-4 table-bordered table-responsive-md round-table">
             <thead>
                 <tr>
                     <th class="table-danger">Customer Id</th>
@@ -138,7 +142,15 @@
     <script>
         $(document).ready(function(){
             var customerId = @Model.Select(vm => vm.Id).First();
-            $('.round-table tbody').hide();
+            $('#domainTable').DataTable({
+                "paging": true,         
+                "ordering": true,       
+                "searching": true,      
+                "info": true,           
+                "responsive": true,     
+                "lengthMenu": [10, 25, 50, 100], 
+                "pageLength": 10      
+            });
 
             $(".delete-button").on('click',function () {
                 var ip = $(this).data('ip');
@@ -154,7 +166,9 @@
                     data: data,
                     success: function (response) {
                         if (response != null) {
-                            location.reload();
+                            setTimeout(() => {
+                                location.reload();
+                            },2000)
                         }
                         else {
                             console.log(response.message);
@@ -181,13 +195,6 @@
             $("#addDomainButton").click(function () {
                 $("#domainModal").modal("show");
             });
-
-
-            $('.round-header').click(function () {
-                $(this).next('.round-table').find('tbody').toggle('slow');
-            });
-            
-           
             
             $(".close").click(function () {
                 $("#domainModal").modal("hide");

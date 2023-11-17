@@ -30,14 +30,3 @@ VALUES ('2023-10-20 10:00:00', 0, 'I have a question about the Basic Plan', 1, 1
 
 
 
-
-	   
-select d.Customer_Id, t.Current_Round,d.IpAddress,d.Name,d.Title,p.Plan_Name from Domains d
-join Transactions t on d.Customer_Id = t.CustomerId
-join Plans p on t.PlanId = p.Id
-where d.Customer_Id = 35 and t.IsLatest = 1
-
-
-select * from Domains d
-join Transactions t on t.CustomerId = d.Customer_Id
-where d.Customer_Id = 35 and t.IsLatest = 1 and d.Name like '%domain%'

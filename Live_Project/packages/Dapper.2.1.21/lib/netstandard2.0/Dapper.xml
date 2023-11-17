@@ -326,6 +326,9 @@
             <summary>
             Tell Dapper to use an explicit constructor, passing nulls or 0s for all parameters
             </summary>
+            <remarks>
+            Usage on methods is limited to the usage with Dapper.AOT (https://github.com/DapperLib/DapperAOT)
+            </remarks>
         </member>
         <member name="M:Dapper.Extensions.CastResult``2(System.Threading.Tasks.Task{``0})">
             <summary>

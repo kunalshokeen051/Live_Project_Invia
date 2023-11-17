@@ -6,9 +6,7 @@ using Dapper;
 using System.Data;
 using LP.Models.ViewModels;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Xml.Linq;
-using System.Net;
+
 
 namespace LP.Repository.Repositories
 {
@@ -399,6 +397,7 @@ namespace LP.Repository.Repositories
                 throw;
             }
         }
+
     }
 }
 

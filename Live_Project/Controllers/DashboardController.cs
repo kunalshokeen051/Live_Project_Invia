@@ -177,6 +177,7 @@ namespace Live_Project.Controllers
 
                 if (status)
                 {
+                    _notyf.Success("Domain Successfully Added");
                 return Json(new { success = true, message = "message received"});
                 }
 
@@ -222,7 +223,8 @@ namespace Live_Project.Controllers
 
                 if (status)
                 {
-                return Json(new { success = true, message = "message received" });
+                  _notyf.Success("Domain Successfully Deleted");
+                    return Json(new { success = true, message = "message received" });
                 }
                 else
                 {

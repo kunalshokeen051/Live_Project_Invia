@@ -56,7 +56,7 @@ BEGIN
                                             WHEN 2 THEN 'IIS'
                                          END;
 
-        EXEC sp_Add_Domain
+        EXEC sp_Add_New_Domain
             @Id,
             @Title,
             @Name,
@@ -91,8 +91,12 @@ BEGIN
            + CAST(ABS(CHECKSUM(NEWID(), GETDATE())) % 256 AS NVARCHAR(3))
     FROM [dbo].[Domains] D;
 
-    SET @Counter = @Counter + 1;
+    SET @Counter = @Counter + 1;	
 END;
 
+select * from users
+
+
+---
 
 

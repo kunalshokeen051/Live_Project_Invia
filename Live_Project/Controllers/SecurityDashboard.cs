@@ -27,11 +27,11 @@ namespace Live_Project.Controllers
             try
             {
                 var Result = _unitOfWork.AdminRepository.GetAllDomains(id);
-                if(Result.Count() == 0)
+               /* if(Result.Count() == 0)
                 {
                     _notyf.Error("No Domains Found");
                     return RedirectToAction("Index");
-                }
+                }*/
                 _unitOfWork.SaveChanges();
 
                 return View(Result);
