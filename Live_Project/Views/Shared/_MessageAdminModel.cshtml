@@ -10,16 +10,17 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="adminMessageForm">
+                <form asp-action="MessageAdmin" asp-controller="Dashboard">
                     <div class="mb-3">
+                        <input name="id" value="@Model.Id" hidden />
                         <label for="message-text" class="col-form-label">Message:</label>
-                        <textarea class="form-control" id="message-text"></textarea>
+                        <textarea name="messageText" class="form-control" id="message-text"></textarea>
                     </div>
-                </form>
-            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="sendButton">Send message</button>
+                <button type="submit" class="btn btn-primary" id="sendButton">Send message</button>
+            </div>
+                </form>
             </div>
         </div>
     </div>
@@ -27,24 +28,6 @@
 
 <script>
 $(document).ready(function() {
-    $('#sendButton').click(function() {
-        var message = $('#message-text').val();
 
-        $.ajax({
-            url: '/Home/MessageAdmin',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({ message: message }),
-            success: function(data) {
-                alert('Message sent!');
-                var modalEl = document.getElementById('messageModal')
-                var modal = bootstrap.Modal.getInstance(modalEl)
-                modal.hide();
-            },
-            error: function(error) {
-                console.error('Error:', error);
-            }
-        });
-    });
 });
 </script>

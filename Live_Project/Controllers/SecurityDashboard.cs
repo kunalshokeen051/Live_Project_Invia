@@ -23,18 +23,33 @@ namespace Live_Project.Controllers
         }
 
         public IActionResult ShowCustomerDomains(int id)
-        {
+        { 
             try
             {
-                var Result = _unitOfWork.AdminRepository.GetAllDomains(id);
-               /* if(Result.Count() == 0)
+                if (HttpContext.Session.GetString("CurrentUser") != null || HttpContext.Session.GetString("UserType") == "Admin")
                 {
-                    _notyf.Error("No Domains Found");
-                    return RedirectToAction("Index");
-                }*/
-                _unitOfWork.SaveChanges();
+                    if (Convert.ToInt32(HttpContext.Session.GetString("CurrentUser")) == id || HttpContext.Session.GetString("UserType") == "Admin")
+                    {
+                        var Result = _unitOfWork.AdminRepository.GetAllDomains(id);
+                        if (Result.Count() == 0)
+                        {
+                            _notyf.Error("No Domains Found");
 
-                return View(Result);
+                        }
+                        _unitOfWork.SaveChanges();
+                        return View(Result);
+                    }
+
+                    else
+                    {
+                        return StatusCode(401, "You are not Authorized to access this page");
+                    }
+                }
+                else
+                {
+                    return Unauthorized();
+                }
+
             }
 
             catch (Exception e)
@@ -53,7 +68,8 @@ namespace Live_Project.Controllers
 
                 if (vulnerabilities == null || !vulnerabilities.Any())
                 {
-                    return NotFound(); 
+                        _notyf.Information("0 Vulnerabilities Found");
+                        return RedirectToAction("Index"); 
                 }
                    return View(vulnerabilities);
                 }

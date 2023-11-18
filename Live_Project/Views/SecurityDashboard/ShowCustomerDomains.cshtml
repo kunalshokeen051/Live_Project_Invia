@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Domains";
+    int tableCounter = 0;
 }
 
 
@@ -13,42 +14,46 @@
     </a>
     <button class="btn btn-danger mt-4 Admin-only-Containers d-none" id="addDomainButton">Add Domain</button>
     <hr />
-    @foreach (var roundGroup in Model.GroupBy(vm => vm.Round).OrderByDescending(g => g.Key))
+    @if (Model.Any())
     {
-        <h2 class="round-header">
-            <span class="mx-2 text-uppercase fw-semibold">Round @roundGroup.Key</span>
-        </h2>
-        <table id="domainTable" class="table my-4 table-bordered table-responsive-md round-table">
-            <thead>
-                <tr>
-                    <th class="table-danger">Customer Id</th>
-                    <th class="table-danger">Title</th>
-                    <th class="table-danger">Name</th>
-                    <th class="table-danger">IP Address</th>
-                    <th class="table-danger">Critical Port</th>
-                    <th class="table-danger">Open Port</th>
-                    <th class="table-danger">Web Server</th>
-                    <th class="table-danger Admin-only-Containers d-none ">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in roundGroup)
-                {
+        @foreach (var roundGroup in Model.GroupBy(vm => vm.Round).OrderByDescending(g => g.Key))
+        {
+            <h2 class="round-header">
+                <span class="mx-2 text-uppercase fw-semibold">Round @roundGroup.Key</span>
+            </h2>
+            <table id="domainTable" class="table my-4 table-bordered table-responsive-md round-table">
+                <thead>
+
                     <tr>
-                        <td>@(item.Id)</td>             @* ?? null-coalescing  operator*@
-                        <td>@(item.Title ?? "N/A")</td>
-                        <td>@(item.Name ?? "N/A")</td>
-                        <td>@(item.IpAddress ?? "N/A")</td>
-                        <td>@(item.CriticalPort ?? "N/A")</td>
-                        <td>@(item.OpenPort ?? "N/A")</td>
-                        <td class="web-server">@(item.WebServer ?? "N/A")</td>
-                        <td class="Admin-only-Containers d-none">
-                            <button data-ip="@item.IpAddress" class="btn btn-danger delete-button"> X </button>
-                        </td>
+                        @*<th class="table-danger">Customer Id</th> *@
+                        <th class="table-danger">Title</th>
+                        <th class="table-danger">Name</th>
+                        <th class="table-danger">IP Address</th>
+                        <th class="table-danger">Critical Port</th>
+                        <th class="table-danger">Open Port</th>
+                        <th class="table-danger">Web Server</th>
+                        <th class="table-danger Admin-only-Containers d-none ">Action</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var item in roundGroup)
+                    {
+                        <tr>
+                            @*  <td>@(item.Id)</td>  *@            @* ?? null-coalescing  operator*@
+                            <td>@(item.Title ?? "N/A")</td>
+                            <td>@(item.Name ?? "N/A")</td>
+                            <td>@(item.IpAddress ?? "N/A")</td>
+                            <td>@(item.CriticalPort ?? "N/A")</td>
+                            <td>@(item.OpenPort ?? "N/A")</td>
+                            <td class="web-server">@(item.WebServer ?? "N/A")</td>
+                            <td class="Admin-only-Containers d-none">
+                                <button data-ip="@item.IpAddress" class="btn btn-danger delete-button"> X </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
     }
 </div>
 
@@ -141,17 +146,20 @@
 @section Scripts{
     <script>
         $(document).ready(function(){
-            var customerId = @Model.Select(vm => vm.Id).First();
-            $('#domainTable').DataTable({
-                "paging": true,         
-                "ordering": true,       
-                "searching": true,      
-                "info": true,           
-                "responsive": true,     
-                "lengthMenu": [10, 25, 50, 100], 
-                "pageLength": 10      
-            });
+            var customerId = @Convert.ToInt32(Context.Request.HttpContext.Session.GetString("CurrentUser"));
+            for (var i = 0; i < @tableCounter; i++) {
+                $('#domainTable_' + tableIndex).DataTable({
+                    "paging": true,
+                    "ordering": true,
+                    "searching": true,
+                    "info": true,
+                    "responsive": true,
+                    "lengthMenu": [10, 25, 50, 100],
+                    "pageLength": 10
+                });
+            }
 
+     
             $(".delete-button").on('click',function () {
                 var ip = $(this).data('ip');
 
@@ -216,8 +224,10 @@
                     data: domainData,
                     success: function (response) {
                         if (response != null) {
-                        alert(response.message);
                             $("#domainModal").modal("hide");
+                            setTimeout(() => {
+                                location.reload();
+                            }, 1500)
                         }
                        
                     },

@@ -2,6 +2,7 @@
 using System;
 using LP.Models;
 using LP.Repository;
+using Microsoft.AspNetCore.Routing;
 
 namespace Live_Project.Controllers
 {
@@ -10,6 +11,7 @@ namespace Live_Project.Controllers
 
         public IActionResult Index()
         {
+            int id = Convert.ToInt32(HttpContext.Session.GetString("CurrentUser"));
             if (HttpContext.Session.GetString("usr") != null)
             {
                 if (HttpContext.Session.GetString("UserType") == "Admin")
@@ -18,7 +20,6 @@ namespace Live_Project.Controllers
                 }
                 else
                 {
-                    int? id = HttpContext.Session.GetInt32("CurrentUser");
                     return RedirectToAction("ShowCustomerData", "Customer", new { id });
                 }
             }

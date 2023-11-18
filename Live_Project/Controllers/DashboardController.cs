@@ -260,6 +260,13 @@ namespace Live_Project.Controllers
                 return StatusCode(500, "An error occured" + ex.Message);
             }
         }
+
+        [HttpPost]
+        public IActionResult MessageAdmin(int id,string messageText)
+        {
+            _notyf.Success("Message Sent!");
+            return RedirectToAction("ShowCustomerData", "Customer", new {id}); 
+        }
     }
 }
 
